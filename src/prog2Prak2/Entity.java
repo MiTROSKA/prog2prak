@@ -8,7 +8,7 @@ public abstract class Entity {
 	public abstract void updateEnergy(int deltaWert);
 	public abstract void updatePosition(XY newPos);
 	public abstract void nextStep();
-	public abstract String toString(); //?
+	public abstract String toString(); 
 	
 	public XY getPos() {
 		return this.position;

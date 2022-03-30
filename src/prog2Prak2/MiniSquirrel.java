@@ -8,7 +8,7 @@ public class MiniSquirrel extends Squirrel{
 	
 	
 	public void nextStep() {
-		position.move();
+		position.randomMove();
 	}
 	
 	public void updateEnergy(int deltaWert) {

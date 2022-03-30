@@ -11,8 +11,7 @@ public abstract class Beasts extends Entity {
 	}
 	
 	public void nextStep() {
-		position = position.move();
+		position = position.randomMove();
 	}
-	
 	
 }

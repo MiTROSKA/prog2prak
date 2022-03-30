@@ -21,14 +21,20 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 		char input;
 		input = sc.next().charAt(0);
 		
+		
+		
 		switch (input) {
-		case 'w': position = new XY(position.getX(), position.getY() +1);
+		case 'w': position = position.move(XY.UP);
+			//position = new XY(position.getX(), position.getY() +1);
 			break;
-		case 'a': position = new XY(position.getX()-1, position.getY());
+		case 'a': position = position.move(XY.LEFT);
+			//position = new XY(position.getX()-1, position.getY());
 			break;
-		case 's': position = new XY(position.getX(), position.getY() -1);
+		case 's': position = position.move(XY.DOWN);
+			//position = new XY(position.getX(), position.getY() -1);
 			break;
-		case 'd': position = new XY(position.getX() +1, position.getY());
+		case 'd': position = position.move(XY.RIGHT);
+			//position = new XY(position.getX() +1, position.getY());
 			break;
 		default:
 		}
@@ -36,7 +42,7 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 	}
 	
 	public String toString() {
-		return "HandOperatedMasterSquirrel nr: " + id + " Position: " + position.getX() + " " + position.getY();
+		return "HandOpSquirrel nr: " + id + " Position: " + position.getX() + " " + position.getY();
 	}
 	
 	public MiniSquirrel spawnMinisquirrel(int energy) {
@@ -44,5 +50,7 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 		
 		return new MiniSquirrel(position.getX(), position.getY(), energy);
 	}
+	
+	
 
 }
