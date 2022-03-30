@@ -7,9 +7,8 @@ public class BadBeast extends Beasts{
 		position = new XY(x, y);
 		energy = -150;
 	}
-	
+
 	public String toString(){
 		return "Badbeast nr: " + id + " Position: " + position.getX() + " " + position.getY();
 	}
-	
 }

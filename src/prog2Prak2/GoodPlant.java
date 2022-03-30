@@ -7,9 +7,8 @@ public class GoodPlant extends PlantsAndWall{
 		energy = 150;
 		position = new XY(x, y);
 	}
-	
+
 	public String toString() {
 		return "GoodPlant nr: " + id + " Position: " + position.getX() + " " + position.getY();
-		
 	}
 }

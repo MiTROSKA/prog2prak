@@ -1,5 +1,3 @@
 package prog2Prak2;
 
-public abstract class MasterSquirrel extends Squirrel {
-	
-}
+public abstract class MasterSquirrel extends Squirrel {}
