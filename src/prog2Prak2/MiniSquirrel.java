@@ -6,7 +6,7 @@ public class MiniSquirrel extends Squirrel{
 		this.energy = energy;
 	}
 
-	public void nextStep() { position.move(); }
+	public void nextStep() { position.randomMove(); }
 
 	public void updateEnergy(int deltaWert) { energy += deltaWert; }
 
