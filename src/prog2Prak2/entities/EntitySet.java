@@ -107,10 +107,18 @@ public class EntitySet {
 		
 		}else return true;
 		
-		
-		
 	}
 	
+	public Entity getEntityAt(int index) {
+		data i;
+		for(i = head; i != null; i = i.getNext()) {
+			if(index-- == 0) {
+				return i.getEntity();
+			}
+		}
+		
+		return null;
+	}
 	
 }
 
