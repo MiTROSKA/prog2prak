@@ -112,6 +112,7 @@ public class EntitySetTest {
 		
 		assertTrue(entityset.reallyMoved(gb, gb1));
 		assertTrue(entityset.reallyMoved(bb, bb1));
+		//pflanze kann sich nicht bewegen
 		assertFalse(entityset.reallyMoved(gp, gp1));
 		assertFalse(entityset.reallyMoved(bp, bp1));
 		assertFalse(entityset.reallyMoved(w, w1));
