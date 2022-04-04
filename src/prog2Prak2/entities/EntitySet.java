@@ -16,12 +16,13 @@ public class EntitySet {
 
 	public void addEntity(Entity entity) throws duplicateEntityException{
 		data i;
+
 		for(i = head; i!= null; i = i.getNext()) {
 			if(i.getEntity().getId() == entity.getId()) {
 				throw new duplicateEntityException("Entity already exists in list");
 			}
 		}
-		
+
 		if (head == null && tail == null) {// leere liste
 			head = new data(entity, null, null);
 			listLength++;
@@ -47,7 +48,7 @@ public class EntitySet {
 		if(counter == 0) {
 			throw new missingEntityException("Entity missing, cannot be removed");
 		}
-		
+
 		for (i = head; i != null; i = i.getNext()) {
 			if (i.getEntity().isSameEntity(entity)) {
 				if (i == head) {// wenn head selbe ist
@@ -63,7 +64,7 @@ public class EntitySet {
 					i.getNext().setPrev(i.getPrev());
 					listLength--;
 				}
-			} 
+			}
 		}
 	}
 	public void nextStepCaller() {
@@ -80,8 +81,8 @@ public class EntitySet {
 		}
 		return " ";
 	}
-	
-	//für unit test gemacht
+
+	//fï¿½r unit test gemacht
 	public boolean isThere(Entity entity) {
 		data i;
 		for(i = head; i != null; i = i.getNext()) {
@@ -89,29 +90,21 @@ public class EntitySet {
 				return true;
 			}
 		}
-		
 		return false;
 	}
-	
-	//für unit test
+
+	//fï¿½r unit test
 	public boolean reallyMoved(Entity entity1, Entity entity2) {
 		int a,b,c,d;
 		a = entity1.getPos().getX();
 		b = entity1.getPos().getY();
-		
 		c = entity2.getPos().getX();
 		d = entity2.getPos().getY();
-		
+
 		if(a == c && b == d) {
 			return false;
-		
 		}else return true;
-		
-		
-		
 	}
-	
-	
 }
 
 class data {

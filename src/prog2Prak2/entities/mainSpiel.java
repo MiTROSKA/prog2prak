@@ -15,11 +15,10 @@ public class mainSpiel {
 		entityset.addEntity(s);
 		entityset.addEntity(gb);
 		entityset.addEntity(bb);
-		
-		
+
 		// unbewegliche objekte hinzuf�gen
 		entityset.addEntity(goodp);
-		
+
 		entityset.addEntity(bp);
 
 		// Main game loop
@@ -32,7 +31,7 @@ public class mainSpiel {
 			entityset.nextStepCaller();
 			System.out.println("Nach NextStep: ");
 			System.out.println("List Length: " + entityset.getListLength());
-			System.out.println(entityset); 
+			System.out.println(entityset);
 		} */
 
 		/*
