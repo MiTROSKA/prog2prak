@@ -6,13 +6,16 @@ import org.junit.jupiter.api.Test;
 
 import prog2Prak2.entities.BadBeast;
 import prog2Prak2.entities.BadPlant;
+import prog2Prak2.entities.Entity;
 import prog2Prak2.entities.EntitySet;
 import prog2Prak2.entities.GoodBeast;
 import prog2Prak2.entities.GoodPlant;
 import prog2Prak2.entities.HandOperatedMasterSquirrel;
 import prog2Prak2.entities.Wall;
+import prog2Prak2.entities.XY;
 import prog2Prak2.entities.duplicateEntityException;
 import prog2Prak2.entities.missingEntityException;
+import prog2Prak2.game.EntityContext;
 
 public class EntitySetTest {
 	EntitySet entityset;
@@ -22,6 +25,8 @@ public class EntitySetTest {
 	BadPlant bp;
 	Wall w;
 	HandOperatedMasterSquirrel handOpMs;
+	EntityContext entityContext;
+	
 
 	@BeforeEach
 	public void startPhase() {
@@ -97,13 +102,15 @@ public class EntitySetTest {
 
 	@Test
 	public void nextStepTest() {
+		
 		GoodBeast gb1 = new GoodBeast(23, 23);
 		BadBeast bb1 = new BadBeast(23,23);
 		GoodPlant gp1 = new GoodPlant(23,23);
 		BadPlant bp1 = new BadPlant(23, 23);
 		Wall w1 = new Wall(23,23);
-
-	//	entityset.nextStepCaller();
+		
+		Entity.setEntityContext(entityContext);
+		entityset.nextStepCaller(entityContext);
 
 		assertTrue(entityset.reallyMoved(gb, gb1));
 		assertTrue(entityset.reallyMoved(bb, bb1));

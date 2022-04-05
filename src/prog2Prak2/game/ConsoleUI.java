@@ -21,7 +21,7 @@ public class ConsoleUI implements UI{
 		case "d":
 		case "D": return new MoveCommand(XY.RIGHT);
 			
-		default: return new MoveCommand(new XY(0, 0)); //?
+		default: return new MoveCommand(new XY(0, 0));
 	
 		}
 	}
@@ -50,6 +50,7 @@ public class ConsoleUI implements UI{
 			}
 			System.out.println();
 		}
+		System.out.println("\n" + "\n");
 }
 
 

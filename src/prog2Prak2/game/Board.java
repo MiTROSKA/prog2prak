@@ -14,15 +14,13 @@ import java.util.Random;
 public class Board {
 	XY boardSize;
 	EntitySet entityset;
-	BoardConfig config;
 	private HandOperatedMasterSquirrel handOpMs;
 	
 	public Board(HandOperatedMasterSquirrel handOpMs) {
 		entityset = new EntitySet();
 		this.handOpMs = handOpMs;
 		entityset.addEntity(handOpMs);
-		config = new BoardConfig(30,30);
-		boardSize = config.getBoardSize();
+		boardSize = BoardConfig.boardSize;
 		
 		//wand erstellen
 		for(int x = 0; x < boardSize.getX(); x++) {

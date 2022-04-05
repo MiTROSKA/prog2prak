@@ -55,7 +55,9 @@ public class EntitySet {
 			if (i.getEntity().isSameEntity(entity)) {
 				if (i == head) {// wenn head selbe ist
 					head = i.getNext();
+					if(listLength > 1) { //for unit test
 					head.setPrev(null);
+					}
 					listLength--;
 				} else if (i == tail) {// wenn tail selbe ist
 					tail = tail.getPrev();

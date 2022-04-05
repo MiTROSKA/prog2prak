@@ -41,9 +41,8 @@ public class FlattenedBoard implements BoardView, EntityContext{
 
 
 	
-	public boolean move(Entity entity, XY moveDirection) { //?
+	public boolean move(Entity entity, XY wouldPos) { 
 		XY oldPos = entity.getPos();
-		XY wouldPos = entity.getPos().move(moveDirection);
 		if(entityArray[wouldPos.getX()][wouldPos.getY()] == null) {
 			entityArray[wouldPos.getX()] [wouldPos.getY()] = entity;
 			entityArray[oldPos.getX()][oldPos.getY()] = null;

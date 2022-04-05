@@ -18,8 +18,9 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 	}
 
 	public void nextStep() {
-		 if(entityContext.move(this, moveCommand.direction)) {
-			 this.position = position.move(moveCommand.direction);
+		XY newPos = position.move(moveCommand.direction);
+		if(entityContext.move(this, newPos)) {
+			 this.position = newPos;
 		 }	
 	}
 

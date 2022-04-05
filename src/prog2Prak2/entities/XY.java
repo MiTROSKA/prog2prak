@@ -3,8 +3,8 @@ package prog2Prak2.entities;
 import java.util.Random;
 
 public class XY {
-	public static final XY UP = new XY(0,1);
-	public static final XY DOWN = new XY(0,-1);
+	public static final XY UP = new XY(0, -1);
+	public static final XY DOWN = new XY(0, 1);
 	public static final XY LEFT = new XY(-1,0);
 	public static final XY RIGHT = new XY(1,0);
 	private final int x;
