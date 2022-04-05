@@ -1,7 +1,10 @@
 package prog2Prak2.entities;
 
+import prog2Prak2.game.EntityContext;
+
 public abstract class Entity {
 	protected static int idCounter = 1;
+	protected static EntityContext entityContext;
 	protected int id;
 	protected int energy;
 	protected XY position;
@@ -21,5 +24,8 @@ public abstract class Entity {
 			return true;
 		}
 		return false;
+	}
+	public static void setEntityContext(EntityContext entityContext) {
+		Entity.entityContext = entityContext;
 	}
 }

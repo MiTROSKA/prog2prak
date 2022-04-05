@@ -16,8 +16,6 @@ public class FlattenedBoard implements BoardView, EntityContext{
 		return this.flatBoardSize;
 	} 
 	
-	
-
 	public EntityType getEntityType(int x, int y) {
 		Entity entity;
 		entity = entityArray[x][y];
@@ -43,14 +41,15 @@ public class FlattenedBoard implements BoardView, EntityContext{
 
 
 	
-	public void move(Entity entity, XY moveDirection) { //?
+	public boolean move(Entity entity, XY moveDirection) { //?
 		XY oldPos = entity.getPos();
 		XY wouldPos = entity.getPos().move(moveDirection);
 		if(entityArray[wouldPos.getX()][wouldPos.getY()] == null) {
 			entityArray[wouldPos.getX()] [wouldPos.getY()] = entity;
 			entityArray[oldPos.getX()][oldPos.getY()] = null;
+			return true;
 		}
-		
+		return false;
 	}
 
 }

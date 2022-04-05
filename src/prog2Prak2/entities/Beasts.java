@@ -6,5 +6,11 @@ public abstract class Beasts extends Entity {
 
 	public void updateEnergy(int deltaWert) { energy += deltaWert; }
 
-	public void nextStep() { position = position.randomMove(); }
+	public void nextStep() { //?
+		XY newPos = position.randomMove();
+		if(entityContext.move(this, newPos)) {
+			position = newPos;
+		}
+	
+	}
 }

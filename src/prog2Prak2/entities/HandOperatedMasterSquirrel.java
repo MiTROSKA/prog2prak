@@ -1,43 +1,26 @@
 package prog2Prak2.entities;
 
-import java.util.Scanner;
-
+import prog2Prak2.game.MoveCommand;
+ 
 public class HandOperatedMasterSquirrel extends Squirrel{
-
-	private static Scanner sc;
+	private MoveCommand moveCommand;
 
 	public HandOperatedMasterSquirrel(int x, int y){
-		sc = new Scanner(System.in);
 		id = idCounter++;
 		energy = 500;
 		position = new XY(x, y);
 	}
 
 	public void updateEnergy(int deltaWert) { energy += deltaWert; }
+	
+	public void setMoveCommand(MoveCommand moveCommand) {
+		this.moveCommand = moveCommand;
+	}
 
 	public void nextStep() {
-		char input;
-		input = sc.next().charAt(0);
-
-		switch (input) {
-		case 'w':
-		//position = new XY(position.getX(), position.getY() +1);
-			position = position.move(XY.UP);
-			break;
-		case 'a':
-		//position = new XY(position.getX()-1, position.getY());
-			position = position.move(XY.LEFT);
-			break;
-		case 's':
-		//position = new XY(position.getX(), position.getY() -1);
-			position = position.move(XY.DOWN);
-			break;
-		case 'd':
-		//position = new XY(position.getX() +1, position.getY());
-			position = position.move(XY.RIGHT);
-			break;
-		default:
-		}
+		 if(entityContext.move(this, moveCommand.direction)) {
+			 this.position = position.move(moveCommand.direction);
+		 }	
 	}
 
 	public String toString() {
@@ -49,4 +32,6 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 
 		return new MiniSquirrel(position.getX(), position.getY(), energy);
 	}
+
+
 }

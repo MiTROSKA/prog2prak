@@ -103,7 +103,7 @@ public class EntitySetTest {
 		BadPlant bp1 = new BadPlant(23, 23);
 		Wall w1 = new Wall(23,23);
 
-		entityset.nextStepCaller();
+	//	entityset.nextStepCaller();
 
 		assertTrue(entityset.reallyMoved(gb, gb1));
 		assertTrue(entityset.reallyMoved(bb, bb1));

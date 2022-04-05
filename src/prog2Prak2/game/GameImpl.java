@@ -3,26 +3,23 @@ package prog2Prak2.game;
 import prog2Prak2.entities.HandOperatedMasterSquirrel;
 
 public class GameImpl extends Game {
+	
 	private HandOperatedMasterSquirrel handOpMs;
 
+	public GameImpl(State state, UI userInterface) {
+		super(state, userInterface);
+		handOpMs = state.getMasterSquirrel();
+	}
 	
 	
-	
-	@Override
 	public void processInput() {
-		// TODO Auto-generated method stub
+		handOpMs.setMoveCommand(userInterface.getCommand());
 		
 	}
 
-	@Override
 	public void render() {
-		// TODO Auto-generated method stub
+		userInterface.render(state.flattenBoard());
 		
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 }

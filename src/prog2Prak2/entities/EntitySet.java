@@ -1,5 +1,7 @@
 package prog2Prak2.entities;
 
+import prog2Prak2.game.EntityContext;
+
 public class EntitySet {
 
 	private data head;
@@ -67,8 +69,10 @@ public class EntitySet {
 			}
 		}
 	}
-	public void nextStepCaller() {
+	public void nextStepCaller(EntityContext entityContext) {
 		data i;
+		Entity.setEntityContext(entityContext);
+		
 		for(i = head; i != null; i = i.getNext()) {
 			i.getEntity().nextStep();
 		}

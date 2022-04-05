@@ -5,6 +5,6 @@ import prog2Prak2.entities.XY;
 
 public interface EntityContext {
 	public XY getSize();
-	public void move(Entity entity, XY moveDirection);
+	public boolean move(Entity entity, XY moveDirection);
 	
 }

@@ -6,6 +6,7 @@ import prog2Prak2.entities.Entity;
 import prog2Prak2.entities.EntitySet;
 import prog2Prak2.entities.GoodBeast;
 import prog2Prak2.entities.GoodPlant;
+import prog2Prak2.entities.HandOperatedMasterSquirrel;
 import prog2Prak2.entities.Wall;
 import prog2Prak2.entities.XY;
 import java.util.Random;
@@ -14,9 +15,12 @@ public class Board {
 	XY boardSize;
 	EntitySet entityset;
 	BoardConfig config;
+	private HandOperatedMasterSquirrel handOpMs;
 	
-	public Board() {
+	public Board(HandOperatedMasterSquirrel handOpMs) {
 		entityset = new EntitySet();
+		this.handOpMs = handOpMs;
+		entityset.addEntity(handOpMs);
 		config = new BoardConfig(30,30);
 		boardSize = config.getBoardSize();
 		
@@ -34,22 +38,22 @@ public class Board {
 		//spielfeld random füllen
 		Random random = new Random();
 		
-		for(int x = 0; x < boardSize.getX(); x++) {
-			for(int y = 0; y < boardSize.getY(); y++) {
+		for(int x = 1; x < boardSize.getX() -1; x++) {
+			for(int y = 2; y < boardSize.getY()-1; y++) {
 				int i = random.nextInt(100);
-				if(i < 60) {
+				if(i < 70 || i >92) {
 					continue;
 				}
-				else if(i >= 60 && i < 70) {
+				else if(i >= 70 && i < 77) {
 					entityset.addEntity(new GoodBeast(x,y));
 				}
-				else if(i >= 70 && i < 80) {
+				else if(i >= 77 && i < 83) {
 					entityset.addEntity(new BadBeast(x,y));
 				}
-				else if(i >= 80 && i < 90) {
+				else if(i >= 83 && i < 87) {
 					entityset.addEntity(new GoodPlant(x,y));
 				}
-				else if(i >= 90 && i < 100) {
+				else if(i >= 87 && i < 93) {
 					entityset.addEntity(new BadPlant(x,y));
 				}
 			}
@@ -66,4 +70,13 @@ public class Board {
 		}
 		return new FlattenedBoard(entityArray);
 	}
+	
+	public HandOperatedMasterSquirrel getMasterSquirrel() {
+		return handOpMs;
+	}
+	
+	public void update() {
+		entityset.nextStepCaller(flatten());
+	}
+	
 }
