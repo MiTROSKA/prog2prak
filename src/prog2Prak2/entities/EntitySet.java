@@ -72,9 +72,9 @@ public class EntitySet {
 			}
 		}
 	}
-	public void nextStepCaller(EntityContext entityContext) {
+	public void nextStepCaller() { //EntityContext entityContext
 		data i;
-		Entity.setEntityContext(entityContext);
+	//	Entity.setEntityContext(entityContext);
 		testCounter = 0;
 		for(i = head; i != null; i = i.getNext()) {
 			i.getEntity().nextStep(); testCounter++;
@@ -82,11 +82,12 @@ public class EntitySet {
 	}
 
 	public String toString() {
+		String s = "";
 		data i;
 		for(i = head; i != null; i = i.getNext()) {
-			System.out.println(i.getEntity().toString());
+			s+= i.getEntity().toString()+"\n";
 		}
-		return " ";
+		return s;
 	}
 
 	//f�r unit test gemacht

@@ -15,10 +15,9 @@ import prog2Prak2.entities.Wall;
 import prog2Prak2.entities.XY;
 import prog2Prak2.entities.duplicateEntityException;
 import prog2Prak2.entities.missingEntityException;
-import prog2Prak2.game.Board;
 import prog2Prak2.game.EntityContext;
 
-import prog2Prak2.game.State;
+
 
 public class EntitySetTest {
 	EntitySet entityset;
@@ -89,6 +88,8 @@ public class EntitySetTest {
 	public void duplicateExcTest() {
 		try {
 			entityset.addEntity(bb);
+			
+			fail();
 		} catch(duplicateEntityException e) {
 
 		}
@@ -98,6 +99,8 @@ public class EntitySetTest {
 	public void missingEntityExcTest() {
 		try {
 			entityset.removeEntity(handOpMs);
+			
+			fail();
 		} catch (missingEntityException e) {
 
 		}
@@ -120,11 +123,12 @@ public class EntitySetTest {
 		
 		GoodBeast gb1 = new GoodBeast(23, 23);
 		BadBeast bb1 = new BadBeast(23,23);
-		GoodPlant gp1 = new GoodPlant(23,23);
+		GoodPlant gp1 = new GoodPlant(23,23);  
 		BadPlant bp1 = new BadPlant(23, 23);
 		Wall w1 = new Wall(23,23);
 	
-		entityset.nextStepCaller(new testEntityContext());
+		Entity.setEntityContext(new testEntityContext());
+		entityset.nextStepCaller();
 		
 		assertTrue(entityset.reallyMoved(gb, gb1));
 		assertTrue(entityset.reallyMoved(bb, bb1));
