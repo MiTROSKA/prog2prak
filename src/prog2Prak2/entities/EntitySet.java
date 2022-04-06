@@ -7,6 +7,7 @@ public class EntitySet {
 	private data head;
 	private data tail;
 	private int listLength;
+	private int testCounter;
 
 	public EntitySet() {
 		this.head = null;
@@ -74,9 +75,9 @@ public class EntitySet {
 	public void nextStepCaller(EntityContext entityContext) {
 		data i;
 		Entity.setEntityContext(entityContext);
-		
+		testCounter = 0;
 		for(i = head; i != null; i = i.getNext()) {
-			i.getEntity().nextStep();
+			i.getEntity().nextStep(); testCounter++;
 		}
 	}
 
@@ -101,6 +102,8 @@ public class EntitySet {
 
 	//f�r unit test
 	public boolean reallyMoved(Entity entity1, Entity entity2) {
+	
+		
 		int a,b,c,d;
 		a = entity1.getPos().getX();
 		b = entity1.getPos().getY();
@@ -112,6 +115,8 @@ public class EntitySet {
 		}else {
 			return true;
 			}
+		
+		
 		}
 
 	

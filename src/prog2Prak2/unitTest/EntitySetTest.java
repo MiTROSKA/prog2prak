@@ -15,7 +15,10 @@ import prog2Prak2.entities.Wall;
 import prog2Prak2.entities.XY;
 import prog2Prak2.entities.duplicateEntityException;
 import prog2Prak2.entities.missingEntityException;
+import prog2Prak2.game.Board;
 import prog2Prak2.game.EntityContext;
+
+import prog2Prak2.game.State;
 
 public class EntitySetTest {
 	EntitySet entityset;
@@ -25,7 +28,7 @@ public class EntitySetTest {
 	BadPlant bp;
 	Wall w;
 	HandOperatedMasterSquirrel handOpMs;
-	EntityContext entityContext;
+	
 	
 
 	@BeforeEach
@@ -99,6 +102,18 @@ public class EntitySetTest {
 
 		}
 	}
+	
+	public class testEntityContext implements EntityContext {
+			
+		public boolean move(Entity entity, XY pos) {
+			return true;
+		}
+		
+		public XY getSize() {
+			return null;
+		}
+		
+	}
 
 	@Test
 	public void nextStepTest() {
@@ -108,10 +123,9 @@ public class EntitySetTest {
 		GoodPlant gp1 = new GoodPlant(23,23);
 		BadPlant bp1 = new BadPlant(23, 23);
 		Wall w1 = new Wall(23,23);
+	
+		entityset.nextStepCaller(new testEntityContext());
 		
-		Entity.setEntityContext(entityContext);
-		entityset.nextStepCaller(entityContext);
-
 		assertTrue(entityset.reallyMoved(gb, gb1));
 		assertTrue(entityset.reallyMoved(bb, bb1));
 		//pflanze kann sich nicht bewegen
@@ -121,3 +135,5 @@ public class EntitySetTest {
 
 	}
 }
+
+
