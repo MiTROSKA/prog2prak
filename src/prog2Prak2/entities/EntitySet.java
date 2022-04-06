@@ -7,7 +7,6 @@ public class EntitySet {
 	private data head;
 	private data tail;
 	private int listLength;
-	private int testCounter;
 
 	public EntitySet() {
 		this.head = null;
@@ -75,9 +74,8 @@ public class EntitySet {
 	public void nextStepCaller() { //EntityContext entityContext
 		data i;
 	//	Entity.setEntityContext(entityContext);
-		testCounter = 0;
 		for(i = head; i != null; i = i.getNext()) {
-			i.getEntity().nextStep(); testCounter++;
+			i.getEntity().nextStep();
 		}
 	}
 
