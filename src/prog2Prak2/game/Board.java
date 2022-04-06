@@ -10,7 +10,7 @@ import prog2Prak2.entities.HandOperatedMasterSquirrel;
 import prog2Prak2.entities.Wall;
 import prog2Prak2.entities.XY;
 import java.util.Random;
-import prog2Prak2.game.EntityContext;
+//import prog2Prak2.game.EntityContext;
 
 public class Board {
 	XY boardSize;

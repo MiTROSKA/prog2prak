@@ -38,8 +38,6 @@ public class FlattenedBoard implements BoardView, EntityContext{
 		
 		return EntityType.NULL;
 	}
-
-
 	
 	public boolean move(Entity entity, XY wouldPos) { 
 		XY oldPos = entity.getPos();

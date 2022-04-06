@@ -18,15 +18,20 @@ public class mainSpiel {
 
 		// unbewegliche objekte hinzuf�gen
 		entityset.addEntity(goodp);
-
-		entityset.addEntity(bp);
+		entityset.addEntity(bp);  
 
 		// Main game loop
 		System.out.println("Vor NextStep: ");
 		System.out.println("List Length: " + entityset.getListLength());
 		System.out.println(entityset);
+		
+		
+		//entityset.removeEntity(s);
+		
+		System.out.println(entityset);
 
-	/*	int i;
+	/*
+		int i;
 		for (i = 0; i < 10; i++) {
 			entityset.nextStepCaller();
 			System.out.println("Nach NextStep: ");

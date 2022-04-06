@@ -58,7 +58,7 @@ public class EntitySetTest {
 	}
 
 	@Test
-	public void removeTest() { //?
+	public void removeTest() { 
 		entityset.removeEntity(gb);
 		entityset.removeEntity(bb);
 		entityset.removeEntity(gp);

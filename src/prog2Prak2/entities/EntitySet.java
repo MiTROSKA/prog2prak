@@ -1,6 +1,6 @@
 package prog2Prak2.entities;
 
-import prog2Prak2.game.EntityContext;
+//import prog2Prak2.game.EntityContext;
 
 public class EntitySet {
 
@@ -17,22 +17,21 @@ public class EntitySet {
 	public int getListLength() { return this.listLength; }
 
 	public void addEntity(Entity entity) throws duplicateEntityException{
-		data i;
-
-		for(i = head; i!= null; i = i.getNext()) {
-			if(i.getEntity().getId() == entity.getId()) {
+			
+		if(isThere(entity)) {
 				throw new duplicateEntityException("Entity already exists in list");
 			}
-		}
+		
 
 		if (head == null && tail == null) {// leere liste
 			head = new data(entity, null, null);
+			tail = head;
 			listLength++;
-		} else if (head != null && tail == null) {// liste nur mit 1
+		} else if (listLength == 1) {// liste nur mit 1
 			tail = new data(entity, head, null);
 			head.setNext(tail);
 			listLength++;
-		} else if (head != null && tail != null) {// liste mit mehr als 2
+		} else if (listLength >= 2) {// liste mit mehr 2 oder mehr
 			tail.setNext(new data(entity, tail, null));
 			tail = tail.getNext();
 			listLength++;
@@ -40,26 +39,22 @@ public class EntitySet {
 	}
 
 	public void removeEntity(Entity entity) throws missingEntityException {
-		int counter =  0;
-		data i,j;
-		for(j = head; j!= null; j = j.getNext()) {
-			if(j.getEntity().getId() == entity.getId()) {
-				counter = 1;
-			}
-		}
-		if(counter == 0) {
+		data i;
+		
+		if(!isThere(entity)) {
 			throw new missingEntityException("Entity missing, cannot be removed");
 		}
 
 		for (i = head; i != null; i = i.getNext()) {
 			if (i.getEntity().isSameEntity(entity)) {
-				if (i == head) {// wenn head selbe ist
-					head = i.getNext();
-					if(listLength > 1) { //for unit test
-					head.setPrev(null);
-					}
+				if (listLength == 1) {// wenn head und tail gleich sind
+					head = null;
 					listLength--;
-				} else if (i == tail) {// wenn tail selbe ist
+				} else if(i == head){ //wenn head gesucht und länge nicht 1 ist
+					head = head.getNext();
+					head.setPrev(null);
+					listLength--;
+				} else if (i == tail) {// wenn tail selbe ist und länge nicht 1 ist
 					tail = tail.getPrev();
 					tail.setNext(null);
 					listLength--;
@@ -71,6 +66,7 @@ public class EntitySet {
 			}
 		}
 	}
+	
 	public void nextStepCaller() { //EntityContext entityContext
 		data i;
 	//	Entity.setEntityContext(entityContext);
@@ -82,13 +78,15 @@ public class EntitySet {
 	public String toString() {
 		String s = "";
 		data i;
+		if(listLength == 0) {
+			return "Liste leer :(";
+		}
 		for(i = head; i != null; i = i.getNext()) {
-			s+= i.getEntity().toString()+"\n";
+			s = s +  i.getEntity().toString() + "\n";
 		}
 		return s;
 	}
 
-	//fï¿½r unit test gemacht
 	public boolean isThere(Entity entity) {
 		data i;
 		for(i = head; i != null; i = i.getNext()) {
@@ -99,10 +97,9 @@ public class EntitySet {
 		return false;
 	}
 
-	//fï¿½r unit test
+	//for unit test
 	public boolean reallyMoved(Entity entity1, Entity entity2) {
 	
-		
 		int a,b,c,d;
 		a = entity1.getPos().getX();
 		b = entity1.getPos().getY();
@@ -114,11 +111,8 @@ public class EntitySet {
 		}else {
 			return true;
 			}
-		
-		
 		}
 
-	
 	public Entity getEntityAt(int index) {
 		data i;
 		for(i = head; i != null; i = i.getNext()) {
@@ -126,11 +120,9 @@ public class EntitySet {
 				return i.getEntity();
 			}
 		}
-		
 		return null;
 	}
 	
-
 }
 
 class data {
