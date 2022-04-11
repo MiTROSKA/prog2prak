@@ -13,10 +13,10 @@ public class MiniSquirrel extends Squirrel{
 
 	public void nextStep() { 
 		if(stunCounter == 0) {
+			updateEnergy(-1);
 			XY newPos = position.randomMove();
 			if(entityContext.moveOk(this, newPos)) {
 			 this.position = newPos;
-			 updateEnergy(-1);
 			}
 		} else stunCounter--;
 		

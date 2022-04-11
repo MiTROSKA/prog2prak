@@ -8,5 +8,7 @@ public abstract class Beasts extends Entity {
 	public void updateEnergy(int deltaWert) { energy += deltaWert; }
 
 	public abstract void nextStep();
+	
+	public abstract XY beastMove(XY diffVector);
 		
 }

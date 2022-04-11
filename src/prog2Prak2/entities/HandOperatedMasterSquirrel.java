@@ -12,7 +12,16 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 		dead = false;
 	}
 
-	public void updateEnergy(int deltaWert) { energy += deltaWert; }
+	public void updateEnergy(int deltaWert) {
+		energy += deltaWert; 
+		if(energy <=0) {
+			dead = true;
+			System.out.println("WASTED");
+			//System.exit(0);
+		}
+		
+		
+	}
 	
 	public void setMoveCommand(MoveCommand moveCommand) {
 		this.moveCommand = moveCommand;

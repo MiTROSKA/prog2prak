@@ -1,6 +1,10 @@
 package prog2Prak2.entities;
 
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.Random;
+
+
 
 //import prog2Prak2.game.EntityContext;
 
@@ -148,14 +152,78 @@ public class EntitySet {
 		return null;
 	}
 	
-//	public Enumeration enumerateForward() {
+	
+	public Enumeration<Entity> enumerateForward() {
 		
-	//}
+		return new Enumeration<Entity>() {
+			
+			private int counter = 0;
+			
+			@Override
+			public boolean hasMoreElements() {
+				return counter<listLength;
+			}
 
-	public boolean hasMoreElements() {
+			@Override
+			public Entity nextElement() {
+				return getEntityAt(counter++);
+			}
 		
-		return false;
+		};	
+
 	}
+	
+	public Enumeration<Entity> enumerateBackwards(){
+		return new Enumeration<Entity>() {
+			
+			private int counter = listLength-1;
+
+			@Override
+			public boolean hasMoreElements() {
+				return counter >= listLength;
+			}
+
+			@Override
+			public Entity nextElement() {
+				return getEntityAt(counter--);
+			}
+			
+		};
+	}
+	
+public Enumeration<Entity> enumerateRandom() {
+		
+		return new Enumeration<Entity>() {
+			
+			private Integer[] enumerated = new Integer[listLength];
+			private int index=0;
+			private static Random random;
+			
+			@Override
+			public boolean hasMoreElements() {
+				return index<listLength;
+			}
+
+			@Override
+			public Entity nextElement() {
+				
+				int i;
+				
+				do {
+					i = random.nextInt(listLength);
+					
+				}while(Arrays.asList(enumerated).contains(i));
+				enumerated[index++] = Integer.valueOf(i);
+				return getEntityAt(i);
+			}
+		
+		};	
+		
+		
+	};
+	
+
+	
 
 	
 	

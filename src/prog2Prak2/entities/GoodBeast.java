@@ -16,9 +16,10 @@ public class GoodBeast extends Beasts{
 			if(nearestSquirrel == null) {
 				wouldPos = position.randomMove();
 			} else {
-				wouldPos = new XY(0,0); // TODO vorerst
+				XY direction = beastMove(position.realDiffCalc(nearestSquirrel.getPos()));
+				wouldPos = position.move(direction);
 			}
-			
+
 			if(entityContext.moveOk(this, wouldPos)) {
 				position = wouldPos;
 				} 
@@ -28,5 +29,10 @@ public class GoodBeast extends Beasts{
 
 	public String toString() {
 		return "GoodBeast nr: " + id + " Position: " + position.getX() + " " + position.getY();
+	}
+
+	
+	public XY beastMove(XY diffVector) {
+		return diffVector.abnormalize().negate();
 	}
 }

@@ -87,5 +87,11 @@ class EntityContextDummy implements EntityContext{
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	@Override
+	public Squirrel getNearestSquirrel(XY startPos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

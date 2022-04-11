@@ -18,10 +18,11 @@ public class BadBeast extends Beasts{
 		if(nearestSquirrel == null) {
 			wouldPos = position.randomMove();
 		} else {
-			wouldPos = new XY(0,0); // TODO vorerst
+			XY direction = beastMove(position.realDiffCalc(nearestSquirrel.getPos()));
+			wouldPos = position.move(direction);
 		}
 		
-		if(entityContext.moveOk(this, wouldPos)) {
+		if(entityContext.moveOk(this, wouldPos)) { 
 			position = wouldPos;
 			} 
 		stepCount = 1;
@@ -42,5 +43,10 @@ public class BadBeast extends Beasts{
 
 	public String toString(){
 		return "Badbeast nr: " + id + " Position: " + position.getX() + " " + position.getY();
+	}
+
+
+	public XY beastMove(XY diffVector) {
+		return diffVector.abnormalize();
 	}
 }

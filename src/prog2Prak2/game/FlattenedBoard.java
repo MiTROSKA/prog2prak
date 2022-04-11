@@ -11,7 +11,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	private EntitySet squirrelList;
 
 	public FlattenedBoard(EntitySet entityset, XY size) {
-		Entity[][] entityArray;
 		this.entityset = entityset;
 		this.squirrelList = new EntitySet();
 		this.flatBoardSize = size;
@@ -26,19 +25,20 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		}
 	}
 
-	public Squirrel getNearestSquirrel(XY searchStart) { // ist so richtig?
+	public Squirrel getNearestSquirrel(XY searchStart) { 
 		Entity nearestSquirrel = null;
-		XY nearPos = nearestSquirrel.getPos();
+		XY nearPos = null;
 		Entity squirrel = squirrelList.getEntityAt(0);
 
 		for (int i = 1; squirrel != null; i++) {
 			XY squirrelPos = squirrel.getPos();
-			XY difference = searchStart.diffCalc(squirrelPos);
+			XY difference = searchStart.fakeDiffCalc(squirrelPos);
 			if (difference.getX() <= 6 && difference.getY() <= 6) {
 				if (nearestSquirrel == null) {
 					nearestSquirrel = squirrel;
+					nearPos = nearestSquirrel.getPos();
 				} else {
-					XY oldDiff = searchStart.diffCalc(nearPos);
+					XY oldDiff = searchStart.fakeDiffCalc(nearPos);
 					if (difference.getX() < oldDiff.getX() || difference.getY() < oldDiff.getY()) {
 						nearestSquirrel = squirrel;
 					}
@@ -64,8 +64,14 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		}
 		if (entity instanceof Squirrel squirrel) {
 			itsOk = squirrelMoveRuling(squirrel, hindrance);
-		} else if (entity instanceof Beasts) { //?
-
+		} else if (hindrance instanceof Squirrel squirrel) { // ?
+			itsOk = squirrelMoveRuling(squirrel, entity);
+		}
+		if (hindrance != null && hindrance.isDead()) {
+			reMove(hindrance);
+		}
+		if (entity.isDead()) {
+			reMove(entity);
 		}
 
 		if (itsOk) {
@@ -126,7 +132,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			}
 		}
 
-		return true;
+		return true; 
 	}
 
 	private void move(Entity entity, XY newPos) {

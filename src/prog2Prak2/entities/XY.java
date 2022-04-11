@@ -39,7 +39,7 @@ public class XY {
 		return new XY(a, b);
 	}
 	
-	public XY diffCalc(XY pos1) {
+	public XY fakeDiffCalc(XY pos1) {
 		int a,b,c,d,x,y;
 		a = pos1.getX();
 		b = pos1.getY();
@@ -53,4 +53,42 @@ public class XY {
 		
 		return new XY(x,y);
 	}
+		
+	
+	public XY realDiffCalc(XY pos1) {
+		int a,b,c,d,x,y;
+		a = pos1.getX();
+		b = pos1.getY();
+		c = this.getX();
+		d = this.getY();
+		
+		x = a - c;
+		y = b - d;
+		
+		return new XY(x,y); 
+	}
+	
+	public XY abnormalize() {
+		int a,b;
+		
+		if(this.x != 0) {
+			a = this.x/Math.abs(x);
+		}else {
+			a = this.x;
+		}
+		
+		if(this.y != 0) {
+			b = this.y/Math.abs(y);
+		}else {
+			b = this.y;
+		}
+		return new XY(a,b);
+	}
+	
+	public XY negate() {
+		return new XY(this.x*(-1), this.y*(-1));
+	}
+	
+	
+	
 }
