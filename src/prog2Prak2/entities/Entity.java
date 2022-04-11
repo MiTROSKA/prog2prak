@@ -4,6 +4,7 @@ import prog2Prak2.game.EntityContext;
 
 public abstract class Entity {
 	protected static int idCounter = 1;
+	protected boolean dead;
 	protected static EntityContext entityContext;
 	protected int id;
 	protected int energy;
@@ -27,5 +28,12 @@ public abstract class Entity {
 	}
 	public static void setEntityContext(EntityContext entityContext) {
 		Entity.entityContext = entityContext;
+	}
+	public boolean isDead() {
+		return this.dead;
+	}
+	
+	public void die() {
+		dead = true;
 	}
 }

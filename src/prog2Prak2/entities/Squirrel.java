@@ -1,6 +1,10 @@
 package prog2Prak2.entities;
 
 public abstract class Squirrel extends Entity{
-
+	protected int stunCounter = 0;
 	public void updatePosition(XY newPos) { this.position = newPos; }
+	
+	public void stunned() {
+		this.stunCounter = 3;
+	}
 }

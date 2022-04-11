@@ -38,4 +38,19 @@ public class XY {
 
 		return new XY(a, b);
 	}
+	
+	public XY diffCalc(XY pos1) {
+		int a,b,c,d,x,y;
+		a = pos1.getX();
+		b = pos1.getY();
+		c = this.getX();
+		d = this.getY();
+		
+		x = a - c;
+		y = b - d;
+		if(x < 0) { x = x*(-1); }
+		if(y < 0) { y = y*(-1); }
+		
+		return new XY(x,y);
+	}
 }

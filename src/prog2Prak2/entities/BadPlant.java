@@ -6,6 +6,7 @@ public class BadPlant extends PlantsAndWall{
 		id = idCounter++;
 		energy = -300;
 		position = new XY(x,y);
+		dead = false;
 	}
 
 	public String toString() {

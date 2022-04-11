@@ -1,10 +1,12 @@
 package prog2Prak2.entities;
 
+import prog2Prak2.game.EntityContext;
+
 public class mainSpiel {
 
 	public static void main(String[] args) {
 		// Erstellung der Figuren
-		HandOperatedMasterSquirrel s = new HandOperatedMasterSquirrel(13,13);
+		Entity s = new HandOperatedMasterSquirrel(13,13);
 		EntitySet entityset = new EntitySet();
 		GoodBeast gb = new GoodBeast(13,13);
 		BadBeast bb = new BadBeast(13,13);
@@ -26,9 +28,24 @@ public class mainSpiel {
 		System.out.println(entityset);
 		
 		
+		Entity.setEntityContext(new EntityContextDummy());
+		//entityset.nextStepCaller();
 		//entityset.removeEntity(s);
+	//	Entity mini = s.spawnMinisquirrel(100);
 		
-		System.out.println(entityset);
+		if(s instanceof MasterSquirrel) {
+			System.out.println("fokfkok");
+		}else {
+			System.out.println("yessir");
+		}
+		
+		
+		
+	//	System.out.println(entityset);
+		
+		
+		
+		
 
 	/*
 		int i;
@@ -54,4 +71,21 @@ public class mainSpiel {
 		 * System.out.println(entityset);
 		 */
 	}
+}
+
+
+class EntityContextDummy implements EntityContext{
+
+	@Override
+	public XY getSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean moveOk(Entity entity, XY moveDirection) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
 }

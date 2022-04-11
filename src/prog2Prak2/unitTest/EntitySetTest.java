@@ -11,6 +11,7 @@ import prog2Prak2.entities.EntitySet;
 import prog2Prak2.entities.GoodBeast;
 import prog2Prak2.entities.GoodPlant;
 import prog2Prak2.entities.HandOperatedMasterSquirrel;
+import prog2Prak2.entities.Squirrel;
 import prog2Prak2.entities.Wall;
 import prog2Prak2.entities.XY;
 import prog2Prak2.entities.duplicateEntityException;
@@ -108,11 +109,17 @@ public class EntitySetTest {
 	
 	public class testEntityContext implements EntityContext {
 			
-		public boolean move(Entity entity, XY pos) {
+		public boolean moveOk(Entity entity, XY pos) {
 			return true;
 		}
 		
 		public XY getSize() {
+			return null;
+		}
+
+		@Override
+		public Squirrel getNearestSquirrel(XY startPos) {
+			// TODO Auto-generated method stub
 			return null;
 		}
 		

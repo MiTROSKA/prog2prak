@@ -59,15 +59,7 @@ public class Board {
 		}
 	}
 	public FlattenedBoard flatten() {
-		Entity [][] entityArray;
-		entityArray = new Entity[boardSize.getX()][boardSize.getY()];
-		Entity entity = entityset.getEntityAt(0);
-
-		for(int i = 1; entity != null; i++) {
-			entityArray[entity.getPos().getX()][entity.getPos().getY()] = entity;
-			entity = entityset.getEntityAt(i);
-		}
-		return new FlattenedBoard(entityArray);
+		return new FlattenedBoard(entityset, boardSize);
 	}
 	
 	public HandOperatedMasterSquirrel getMasterSquirrel() {

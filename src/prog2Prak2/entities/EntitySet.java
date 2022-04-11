@@ -1,13 +1,38 @@
 package prog2Prak2.entities;
 
+import java.util.Enumeration;
+
 //import prog2Prak2.game.EntityContext;
 
 public class EntitySet {
 
+	
 	private data head;
 	private data tail;
 	private int listLength;
 
+	private static class data {
+		private Entity entity;
+		private data prev;
+		private data next;
+
+		public data(Entity entity, data prev, data next) {
+			this.entity = entity;
+			this.prev = prev;
+			this.next = next;
+		}
+
+		public Entity getEntity() { return this.entity; }
+
+		public data getPrev() { return this.prev; }
+
+		public data getNext() { return this.next; }
+
+		public void setNext(data next) { this.next = next; }
+
+		public void setPrev(data prev) { this.prev = prev; }
+	}
+	
 	public EntitySet() {
 		this.head = null;
 		this.tail = null;
@@ -123,26 +148,16 @@ public class EntitySet {
 		return null;
 	}
 	
-}
+//	public Enumeration enumerateForward() {
+		
+	//}
 
-class data {
-	private Entity entity;
-	private data prev;
-	private data next;
-
-	public data(Entity entity, data prev, data next) {
-		this.entity = entity;
-		this.prev = prev;
-		this.next = next;
+	public boolean hasMoreElements() {
+		
+		return false;
 	}
 
-	public Entity getEntity() { return this.entity; }
-
-	public data getPrev() { return this.prev; }
-
-	public data getNext() { return this.next; }
-
-	public void setNext(data next) { this.next = next; }
-
-	public void setPrev(data prev) { this.prev = prev; }
+	
+	
 }
+

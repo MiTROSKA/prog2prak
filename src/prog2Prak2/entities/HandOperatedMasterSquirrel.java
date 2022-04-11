@@ -9,6 +9,7 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 		id = idCounter++;
 		energy = 500;
 		position = new XY(x, y);
+		dead = false;
 	}
 
 	public void updateEnergy(int deltaWert) { energy += deltaWert; }
@@ -18,10 +19,13 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 	}
 
 	public void nextStep() {
-		XY newPos = position.move(moveCommand.direction);
-		if(entityContext.move(this, newPos)) {
+		
+		if(stunCounter == 0) {
+			XY newPos = position.move(moveCommand.direction);
+			if(entityContext.moveOk(this, newPos)) {
 			 this.position = newPos;
-		 }	
+			}
+		} else stunCounter--;
 	}
 
 	public String toString() {
@@ -31,7 +35,7 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 	public MiniSquirrel spawnMinisquirrel(int energy) {
 		updateEnergy(-energy);
 
-		return new MiniSquirrel(position.getX(), position.getY(), energy);
+		return new MiniSquirrel(position.getX(), position.getY(), energy, this.id);
 	}
 
 
