@@ -10,7 +10,7 @@ public class XY {
 	private final int x;
 	private final int y;
 
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
 	public XY(int x, int y) {
 		this.x = x;
@@ -18,7 +18,6 @@ public class XY {
 	}
 
 	public int getX() { return this.x; }
-
 	public int getY() { return this.y; }
 
 	public XY move(XY WASD) {
@@ -88,7 +87,5 @@ public class XY {
 	public XY negate() {
 		return new XY(this.x*(-1), this.y*(-1));
 	}
-	
-	
-	
+
 }

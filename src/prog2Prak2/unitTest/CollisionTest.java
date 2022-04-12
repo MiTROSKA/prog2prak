@@ -11,8 +11,6 @@ public class CollisionTest {
 	EntitySet entityset;
 	private final XY size = new XY(50, 50);
 	
-	
-	
 	@BeforeEach
 	public void startPhase() {
 		entityset = new EntitySet();
@@ -35,7 +33,6 @@ public class CollisionTest {
 			assertEquals(oldPos, handOpMs.getPos());
 		}
 		assertEquals(oldEnergy, handOpMs.getEnergy()+30);
-		
 	}
 	
 	@Test
@@ -50,7 +47,6 @@ public class CollisionTest {
 		new FlattenedBoard(entityset, size).moveOk(h, newPos);
 		assertEquals(shouldEnergy, h.getEnergy());
 		universalTester(entityset, h, gp);
-		
 	}
 	
 	@Test
@@ -65,11 +61,8 @@ public class CollisionTest {
 		new FlattenedBoard(entityset, size).moveOk(h, newPos);
 		assertEquals(shouldEnergy, h.getEnergy());
 		universalTester(entityset, h, bp);
-		
 	}
-	
-	
-	
+
 	@Test
 	public void beastWallTest() { //passiert nix
 		entityset.addEntity(new Wall(0,0));
@@ -80,7 +73,6 @@ public class CollisionTest {
 		
 		new FlattenedBoard(entityset, size).moveOk(gb, newPos);
 		assertEquals(oldPos, gb.getPos());
-		
 	}
 	
 	@Test
@@ -106,9 +98,8 @@ public class CollisionTest {
 		
 		Entity.setEntityContext(new FlattenedBoard(entityset, size));
 		
-		for(int i = 0; i < 2*4; i++) {
-			gb.nextStep();
-		}
+		for(int i = 0; i < 2*4; i++) {gb.nextStep();}
+
 		assertEquals(shouldPos.getX(), gb.getPos().getX());
 		assertEquals(shouldPos.getY(), gb.getPos().getY());
 		
@@ -116,13 +107,12 @@ public class CollisionTest {
 			h.setMoveCommand(new MoveCommand(XY.DOWN));
 			h.nextStep();
 		}
+
 		assertTrue(gb.isDead());
 		assertEquals(shouldEnergy, h.getEnergy());
 		universalTester(entityset, h, gb);
-		
 	}
-	
-	
+
 	@Test
 	public void badBeastSquirrel() {
 		HandOperatedMasterSquirrel h = new HandOperatedMasterSquirrel(0,0);
@@ -133,9 +123,7 @@ public class CollisionTest {
 		XY oldPos = h.getPos();
 		
 		Entity.setEntityContext(new FlattenedBoard(entityset, size));
-		for(int i = 0; i < 2*4; i++) {
-			bb.nextStep();
-		}
+		for(int i = 0; i < 2*4; i++) {bb.nextStep();}
 		
 		XY shouldPos = new XY(0,1);
 		assertEquals(shouldPos.getX(), bb.getPos().getX());
@@ -143,8 +131,8 @@ public class CollisionTest {
 		
 		h.setMoveCommand(new MoveCommand(XY.DOWN));
 		h.nextStep();
-		
-		assertTrue(bb.getLifePoints() == 6); 
+
+		assertEquals(6, bb.getLifePoints());
 		assertEquals(shouldEnergy, h.getEnergy());
 		assertFalse(bb.isDead());
 		assertEquals(oldPos, h.getPos());
@@ -158,17 +146,14 @@ public class CollisionTest {
 		
 		assertTrue(bb.isDead());
 		universalTester(entityset, h, bb);
-		
-		
+
 	}
-	
-	
 	
 	//Testet ob removed wurde, ob neues erstellt wurde, ob selbe position
 	private void universalTester(EntitySet entityset, Squirrel squirrel, Entity entity) {
 		assertFalse(entityset.isThere(entity));
-		assertTrue(entityset.getEntityAt(0) == squirrel);
-		assertFalse(entityset.getEntityAt(1) == entity);
+		assertSame(entityset.getEntityAt(0), squirrel);
+		assertNotSame(entityset.getEntityAt(1), entity);
 		if(entity instanceof GoodPlant) {
         	assertTrue(entityset.getEntityAt(1) instanceof GoodPlant);
         } if(entity instanceof BadPlant) {
@@ -188,7 +173,7 @@ public class CollisionTest {
 		Entity.setEntityContext(new FlattenedBoard(entityset, size));
 		
 		for(int i = 100; i > 0; i--)  {
-			assertTrue(m.getEnergy() == i);
+			assertEquals(m.getEnergy(), i);
 			m.nextStep();
 		}
 		assertTrue(m.isDead());
@@ -207,7 +192,7 @@ public class CollisionTest {
     	assertTrue(miniSquirrel.isDead());
     	assertFalse(entityset.isThere(miniSquirrel));
     	assertTrue(entityset.isThere(h));
-    	assertTrue(h.getEnergy()==600);
+		assertEquals(600, h.getEnergy());
 	}
 	
 	@Test 
@@ -222,7 +207,7 @@ public class CollisionTest {
     	assertTrue(miniSquirrel.isDead());
     	assertFalse(entityset.isThere(miniSquirrel));
     	assertTrue(entityset.isThere(h));
-    	assertTrue(h.getEnergy()==500); //?
+		assertEquals(500, h.getEnergy()); //?
 	}
 	
 	@Test
@@ -252,7 +237,7 @@ public class CollisionTest {
     	assertTrue(miniSquirrel1.isDead());
     	assertFalse(miniSquirrel2.isDead());
     	assertFalse(entityset.isThere(miniSquirrel1));
-    	assertTrue(miniSquirrel2.getEnergy() == 100);
+		assertEquals(100, miniSquirrel2.getEnergy());
     	
     	miniSquirrel1 = new MiniSquirrel(0, 0, 200, 100);
     	entityset.addEntity(miniSquirrel1);
@@ -264,7 +249,4 @@ public class CollisionTest {
     	assertFalse(entityset.isThere(miniSquirrel2));
     	assertTrue(entityset.isThere(miniSquirrel1));
 	}
-	
-	
-
 }

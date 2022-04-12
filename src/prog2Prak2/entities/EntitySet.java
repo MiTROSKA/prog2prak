@@ -13,7 +13,7 @@ public class EntitySet {
 	private int listLength;
 
 	private static class Data {
-		private Entity entity;
+		private final Entity entity;
 		private Data prev;
 		private Data next;
 
@@ -87,11 +87,11 @@ public class EntitySet {
 				if (listLength == 1) {// wenn head und tail gleich sind
 					head = null;
 					listLength--;
-				} else if (i == head) { // wenn head gesucht und länge nicht 1 ist
+				} else if (i == head) { // wenn head gesucht und lï¿½nge nicht 1 ist
 					head = head.getNext();
 					head.setPrev(null);
 					listLength--;
-				} else if (i == tail) {// wenn tail selbe ist und länge nicht 1 ist
+				} else if (i == tail) {// wenn tail selbe ist und lï¿½nge nicht 1 ist
 					tail = tail.getPrev();
 					tail.setNext(null);
 					listLength--;
@@ -142,11 +142,7 @@ public class EntitySet {
 		c = entity2.getPos().getX();
 		d = entity2.getPos().getY();
 
-		if (a == c && b == d) {
-			return false;
-		} else {
-			return true;
-		}
+		return a != c || b != d;
 	}
 
 	public Entity getEntityAt(int index) {
@@ -162,23 +158,18 @@ public class EntitySet {
 	public Enumeration<Entity> enumerateForward() {
 
 		return new Enumeration<Entity>() {
-
 			int index = 0;
 
 			@Override
 			public boolean hasMoreElements() {
-
 				return index < listLength;
 			}
 
 			@Override
 			public Entity nextElement() {
-
 				return getEntityAt(index++);
 			}
-
 		};
-
 	}
 
 	public Enumeration<Entity> enumerateBackwards() {
@@ -198,15 +189,15 @@ public class EntitySet {
 			}
 
 		}
-		;
+
 		return new EnumerateBack();
 	}
 
 	private class EnumerateRandom implements Enumeration<Entity> {
 
-		private Integer[] used = new Integer[listLength];
+		private final Integer[] used = new Integer[listLength];
 		private int index = 0;
-		private static Random random = new Random();
+		private static final Random random = new Random();
 		
 		@Override
 		public boolean hasMoreElements() {
@@ -216,13 +207,10 @@ public class EntitySet {
 		@Override
 		public Entity nextElement() {
 			int i;
-
 			do {
 				i = random.nextInt(listLength);
 			} while (Arrays.asList(used).contains(i));
-
 			used[index++] = i;
-
 			return getEntityAt(i);
 		}
 	}

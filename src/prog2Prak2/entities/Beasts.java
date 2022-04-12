@@ -11,19 +11,19 @@ public abstract class Beasts extends Entity {
 	
 	public void nextStep() { 
 		if (stepCount == 4) {
-		XY wouldPos;
-		Squirrel nearestSquirrel = entityContext.getNearestSquirrel(position);
-		if(nearestSquirrel == null) {
-			wouldPos = position.randomMove();
-		} else {
-			XY direction = beastMove(position.realDiffCalc(nearestSquirrel.getPos()));
-			wouldPos = position.move(direction);
-		}
-		
-		if(entityContext.moveOk(this, wouldPos)) { 
-			position = wouldPos;
+			XY wouldPos;
+			Squirrel nearestSquirrel = entityContext.getNearestSquirrel(position);
+			if(nearestSquirrel == null) {
+				wouldPos = position.randomMove();
+			} else {
+				XY direction = beastMove(position.realDiffCalc(nearestSquirrel.getPos()));
+				wouldPos = position.move(direction);
+			}
+
+			if(entityContext.moveOk(this, wouldPos)) {
+				position = wouldPos;
 			} 
-		stepCount = 1;
+			stepCount = 1;
 		} else stepCount++;
 	}
 		

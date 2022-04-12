@@ -21,10 +21,7 @@ public abstract class Entity {
 	public int getEnergy () { return this.energy; }
 
 	public boolean isSameEntity(Entity entity) {
-		if (this.id == entity.getId()) {
-			return true;
-		}
-		return false;
+		return this.id == entity.getId();
 	}
 	public static void setEntityContext(EntityContext entityContext) {
 		Entity.entityContext = entityContext;

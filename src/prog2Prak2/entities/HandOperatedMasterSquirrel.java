@@ -31,8 +31,7 @@ public class HandOperatedMasterSquirrel extends Squirrel {
 			if (entityContext.moveOk(this, newPos)) {
 				this.position = newPos;
 			}
-		} else
-			stunCounter--;
+		} else stunCounter--;
 	}
 
 	public String toString() {
@@ -41,7 +40,6 @@ public class HandOperatedMasterSquirrel extends Squirrel {
 
 	public MiniSquirrel spawnMinisquirrel(int energy) {
 		updateEnergy(-energy);
-
 		return new MiniSquirrel(position.getX(), position.getY(), energy, this.id);
 	}
 

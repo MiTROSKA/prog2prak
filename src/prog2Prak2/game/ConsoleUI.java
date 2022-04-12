@@ -7,22 +7,24 @@ import prog2Prak2.entities.XY;
 public class ConsoleUI implements UI{
 	private static Scanner scanner = new Scanner(System.in);
 	
-	
 	public MoveCommand getCommand() {
 		String input = scanner.nextLine();
 		
 		switch(input) {
 		case "w":
-		case "W": return new MoveCommand(XY.UP);
+		case "W":
+			return new MoveCommand(XY.UP);
 		case "a":
-		case "A": return new MoveCommand(XY.LEFT);
+		case "A":
+			return new MoveCommand(XY.LEFT);
 		case "s":
-		case "S": return new MoveCommand(XY.DOWN);
+		case "S":
+			return new MoveCommand(XY.DOWN);
 		case "d":
-		case "D": return new MoveCommand(XY.RIGHT);
+		case "D":
+			return new MoveCommand(XY.RIGHT);
 			
 		default: return new MoveCommand(new XY(0, 0));
-	
 		}
 	}
 	
@@ -51,7 +53,5 @@ public class ConsoleUI implements UI{
 			System.out.println();
 		}
 		System.out.println("\n" + "\n");
-}
-
-
+	}
 }
