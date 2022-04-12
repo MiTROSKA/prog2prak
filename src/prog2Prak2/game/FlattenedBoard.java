@@ -1,6 +1,8 @@
 package prog2Prak2.game;
 
 import prog2Prak2.entities.*;
+
+import java.lang.reflect.Constructor;
 import java.util.Random;
 
 public class FlattenedBoard implements BoardView, EntityContext {
@@ -165,6 +167,24 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			GoodBeast gb = new GoodBeast(x, y);
 			entityset.addEntity(gb);
 			entityArray[x][y] = gb;
+		}
+	}
+
+	public void reCreator(Entity altair) {
+		int x, y;
+		do {
+			x = random.nextInt(flatBoardSize.getX());
+			y = random.nextInt(flatBoardSize.getY());
+		} while (entityArray[x][y] != null);
+
+		try {
+			Class<?> entClass = altair.getClass();
+			Constructor<?> entConst = entClass.getConstructor(int.class, int.class);
+			Entity rePlica = (Entity) entConst.newInstance(x, y);
+			entityset.addEntity(rePlica);
+			entityArray[x][y] = rePlica;
+		} catch (Exception e) {
+			System.out.println("Failed to re:Create");
 		}
 	}
 

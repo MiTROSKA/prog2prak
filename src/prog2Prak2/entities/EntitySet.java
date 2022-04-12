@@ -64,11 +64,11 @@ public class EntitySet {
 			head = new Data(entity, null, null);
 			tail = head;
 			listLength++;
-		} else if (listLength == 1) {// liste nur mit 1
+		} else if (listLength == 1) {// list nur mit 1
 			tail = new Data(entity, head, null);
 			head.setNext(tail);
 			listLength++;
-		} else if (listLength >= 2) {// liste mit mehr 2 oder mehr
+		} else if (listLength >= 2) {// liste mit 2 oder mehr
 			tail.setNext(new Data(entity, tail, null));
 			tail = tail.getNext();
 			listLength++;
@@ -133,7 +133,7 @@ public class EntitySet {
 		return false;
 	}
 
-	// for unit test
+	// unit test, reallyMoved or notSamePosition
 	public boolean reallyMoved(Entity entity1, Entity entity2) {
 
 		int a, b, c, d;
@@ -229,6 +229,28 @@ public class EntitySet {
 
 	public Enumeration<Entity> enumerateRandom() {
 		return new EnumerateRandom();
+	}
+	
+	
+	public Enumeration<Entity> enumerateBaccAno() {
+		return new Enumeration<Entity>() {
+
+			int index = listLength-1;
+			
+			@Override
+			public boolean hasMoreElements() {
+				return index > 0;
+			}
+
+			@Override
+			public Entity nextElement() {
+				return getEntityAt(index--);
+			}
+			
+			
+			
+		};
+		
 	}
 
 }
