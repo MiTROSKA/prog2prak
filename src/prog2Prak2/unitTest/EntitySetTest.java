@@ -1,7 +1,6 @@
 package prog2Prak2.unitTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 //import java.util.Arrays;
 import java.util.Enumeration;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +19,6 @@ import prog2Prak2.entities.duplicateEntityException;
 import prog2Prak2.entities.missingEntityException;
 import prog2Prak2.game.EntityContext;
 
-
-
 public class EntitySetTest {
 	EntitySet entityset;
 	GoodBeast gb;
@@ -30,8 +27,6 @@ public class EntitySetTest {
 	BadPlant bp;
 	Wall w;
 	HandOperatedMasterSquirrel handOpMs;
-	
-	
 
 	@BeforeEach
 	public void startPhase() {
@@ -73,7 +68,6 @@ public class EntitySetTest {
 		assertFalse(entityset.isThere(gp));
 		assertFalse(entityset.isThere(bp));
 		assertFalse(entityset.isThere(w));
-
 	}
 
 	@Test
@@ -85,15 +79,14 @@ public class EntitySetTest {
 		assertTrue(entityset.isThere(gp));
 		assertTrue(entityset.isThere(bp));
 		assertTrue(entityset.isThere(w));
-
 	}
+
 	@Test
 	public void duplicateExcTest() {
 		try {
 			entityset.addEntity(bb);
-			
 			fail();
-		} catch(duplicateEntityException e) {
+		} catch(duplicateEntityException ignored) {
 
 		}
 	}
@@ -102,14 +95,13 @@ public class EntitySetTest {
 	public void missingEntityExcTest() {
 		try {
 			entityset.removeEntity(handOpMs);
-			
 			fail();
-		} catch (missingEntityException e) {
+		} catch (missingEntityException ignored) {
 
 		}
 	}
 	
-	public class testEntityContext implements EntityContext {
+	public static class testEntityContext implements EntityContext {
 			
 		public boolean moveOk(Entity entity, XY pos) {
 			return true;
@@ -124,7 +116,6 @@ public class EntitySetTest {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
 	}
 
 	@Test
@@ -144,15 +135,13 @@ public class EntitySetTest {
 			gb.nextStep();
 			bb.nextStep();
 		}
-		
-		
+
 		assertTrue(entityset.reallyMoved(gb, gb1));
 		assertTrue(entityset.reallyMoved(bb, bb1));
 		//pflanze kann sich nicht bewegen
 		assertFalse(entityset.reallyMoved(gp, gp1));
 		assertFalse(entityset.reallyMoved(bp, bp1));
 		assertFalse(entityset.reallyMoved(w, w1));
-
 	}
 	
 	@Test
@@ -192,7 +181,6 @@ public class EntitySetTest {
 		assertEquals(gp, e2);
 		assertEquals(bp, e3);
 		assertEquals(w, e4);
-		
 	} 
 	
 	@Test
@@ -241,7 +229,6 @@ public class EntitySetTest {
 		Entity[]randomEntArray = new Entity[entityset.getListLength()];
 		Enumeration<Entity> e = entityset.enumerateRandom();
 		Enumeration<Entity> e1 = entityset.enumerateForward();
-		
 	
 		for(int i = 0; e.hasMoreElements(); i++) {
 			randomEntArray[i] = e.nextElement();
@@ -253,11 +240,5 @@ public class EntitySetTest {
 		
 		//assertNotEquals(Arrays.toString(ogArray), Arrays.toString(randomEntArray));
 		assertNotEquals(ogArray,randomEntArray);
-		
-		
-		 
 	}
-	
 }
-
-

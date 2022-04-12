@@ -27,25 +27,18 @@ public class mainSpiel {
 		System.out.println("List Length: " + entityset.getListLength());
 		System.out.println(entityset);
 		
-		
 		Entity.setEntityContext(new EntityContextDummy());
 		//entityset.nextStepCaller();
 		//entityset.removeEntity(s);
 	//	Entity mini = s.spawnMinisquirrel(100);
-		
+
 		if(s instanceof Squirrel) {
 			System.out.println("fokfkok");
 		}else {
 			System.out.println("yessir");
 		}
-		
-		
-		
+
 	//	System.out.println(entityset);
-		
-		
-		
-		
 
 	/*
 		int i;
@@ -72,7 +65,6 @@ public class mainSpiel {
 		 */
 	}
 }
-
 
 class EntityContextDummy implements EntityContext{
 

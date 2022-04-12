@@ -1,7 +1,7 @@
 package prog2Prak2.entities;
 
 public class MiniSquirrel extends Squirrel {
-	private int parentToken;
+	private final int parentToken;
 
 	public MiniSquirrel(int x, int y, int energy, int Token) {
 		position = new XY(x, y);
@@ -18,9 +18,7 @@ public class MiniSquirrel extends Squirrel {
 			if (entityContext.moveOk(this, newPos)) {
 				this.position = newPos;
 			}
-		} else
-			stunCounter--;
-
+		} else stunCounter--;
 	}
 
 	public int getParentToken() {
@@ -29,10 +27,7 @@ public class MiniSquirrel extends Squirrel {
 
 	public void updateEnergy(int deltaWert) {
 		energy += deltaWert;
-		if (energy <= 0) {
-			dead = true;
-		}
-
+		if (energy <= 0) {dead = true;}
 	}
 
 	public String toString() {

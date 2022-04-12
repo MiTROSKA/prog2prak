@@ -63,21 +63,18 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			move(entity, wouldPos);
 			return true;
 		}
+
 		if (entity instanceof Squirrel squirrel) {
 			itsOk = squirrelMoveRuling(squirrel, hindrance);
 		} else if (hindrance instanceof Squirrel squirrel) { // ?
 			itsOk = squirrelMoveRuling(squirrel, entity);
 		}
-		if (hindrance != null && hindrance.isDead()) {
-			reMove(hindrance);
-		}
-		if (entity.isDead()) {
-			reMove(entity);
-		}
 
-		if (itsOk) {
-			move(entity, wouldPos);
-		}
+		if (hindrance.isDead()) {reMove(hindrance);}
+
+		if (entity.isDead()) {reMove(entity);}
+
+		if (itsOk) {move(entity, wouldPos);}
 
 		return itsOk;
 	}
@@ -93,7 +90,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				hindrance.die();
 				reCreate(hindrance);
 				return true;
-			} else if (hindrance instanceof BadBeast) {
+			} else {
 				((BadBeast) hindrance).payLifePoint();
 				if (hindrance.isDead()) {
 					reCreate(hindrance);
@@ -132,7 +129,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				}
 			}
 		}
-
 		return true;
 	}
 
@@ -173,9 +169,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		entityset.removeEntity(altair);
 	}
 
-	public XY getSize() {
-		return this.flatBoardSize;
-	}
+	public XY getSize() {return this.flatBoardSize;}
 
 	public EntityType getEntityType(int x, int y) {
 		Entity entity;
@@ -199,5 +193,4 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 		return EntityType.NULL;
 	}
-
 }

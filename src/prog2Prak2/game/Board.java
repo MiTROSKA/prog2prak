@@ -34,7 +34,7 @@ public class Board {
 			entityset.addEntity(new Wall(boardSize.getX()-1, y));
 		}
 		
-		//spielfeld random füllen
+		//spielfeld random fï¿½llen
 		Random random = new Random();
 		
 		for(int x = 1; x < boardSize.getX() -1; x++) {
@@ -43,16 +43,16 @@ public class Board {
 				if(i < 70 || i >92) {
 					continue;
 				}
-				else if(i >= 70 && i < 77) {
+				else if(i < 77) {
 					entityset.addEntity(new GoodBeast(x,y));
 				}
-				else if(i >= 77 && i < 83) {
+				else if(i < 83) {
 					entityset.addEntity(new BadBeast(x,y));
 				}
-				else if(i >= 83 && i < 87) {
+				else if(i < 87) {
 					entityset.addEntity(new GoodPlant(x,y));
 				}
-				else if(i >= 87 && i < 93) {
+				else {
 					entityset.addEntity(new BadPlant(x,y));
 				}
 			}
@@ -70,5 +70,4 @@ public class Board {
 		Entity.setEntityContext(flatten());
 		entityset.nextStepCaller();
 	}
-	
 }
