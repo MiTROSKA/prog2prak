@@ -33,7 +33,7 @@ public class mainSpiel {
 		//entityset.removeEntity(s);
 	//	Entity mini = s.spawnMinisquirrel(100);
 		
-		if(s instanceof MasterSquirrel) {
+		if(s instanceof Squirrel) {
 			System.out.println("fokfkok");
 		}else {
 			System.out.println("yessir");

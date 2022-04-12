@@ -1,11 +1,11 @@
 package prog2Prak2.entities;
 
 import prog2Prak2.game.MoveCommand;
- 
-public class HandOperatedMasterSquirrel extends Squirrel{
+
+public class HandOperatedMasterSquirrel extends Squirrel {
 	private MoveCommand moveCommand;
 
-	public HandOperatedMasterSquirrel(int x, int y){
+	public HandOperatedMasterSquirrel(int x, int y) {
 		id = idCounter++;
 		energy = 500;
 		position = new XY(x, y);
@@ -13,28 +13,26 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 	}
 
 	public void updateEnergy(int deltaWert) {
-		energy += deltaWert; 
-		if(energy <=0) {
+		energy += deltaWert;
+		if (energy <= 0) {
 			dead = true;
 			System.out.println("WASTED");
-			//System.exit(0);
+			// System.exit(0);
 		}
-		
-		
 	}
-	
+
 	public void setMoveCommand(MoveCommand moveCommand) {
 		this.moveCommand = moveCommand;
 	}
 
 	public void nextStep() {
-		
-		if(stunCounter == 0) {
+		if (stunCounter == 0) {
 			XY newPos = position.move(moveCommand.direction);
-			if(entityContext.moveOk(this, newPos)) {
-			 this.position = newPos;
+			if (entityContext.moveOk(this, newPos)) {
+				this.position = newPos;
 			}
-		} else stunCounter--;
+		} else
+			stunCounter--;
 	}
 
 	public String toString() {
@@ -46,6 +44,5 @@ public class HandOperatedMasterSquirrel extends Squirrel{
 
 		return new MiniSquirrel(position.getX(), position.getY(), energy, this.id);
 	}
-
 
 }

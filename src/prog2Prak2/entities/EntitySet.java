@@ -4,73 +4,81 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Random;
 
-
-
 //import prog2Prak2.game.EntityContext;
 
 public class EntitySet {
 
-	
-	private data head;
-	private data tail;
+	private Data head;
+	private Data tail;
 	private int listLength;
 
-	private static class data {
+	private static class Data {
 		private Entity entity;
-		private data prev;
-		private data next;
+		private Data prev;
+		private Data next;
 
-		public data(Entity entity, data prev, data next) {
+		public Data(Entity entity, Data prev, Data next) {
 			this.entity = entity;
 			this.prev = prev;
 			this.next = next;
 		}
 
-		public Entity getEntity() { return this.entity; }
+		public Entity getEntity() {
+			return this.entity;
+		}
 
-		public data getPrev() { return this.prev; }
+		public Data getPrev() {
+			return this.prev;
+		}
 
-		public data getNext() { return this.next; }
+		public Data getNext() {
+			return this.next;
+		}
 
-		public void setNext(data next) { this.next = next; }
+		public void setNext(Data next) {
+			this.next = next;
+		}
 
-		public void setPrev(data prev) { this.prev = prev; }
+		public void setPrev(Data prev) {
+			this.prev = prev;
+		}
 	}
-	
+
 	public EntitySet() {
 		this.head = null;
 		this.tail = null;
 		listLength = 0;
 	}
 
-	public int getListLength() { return this.listLength; }
+	public int getListLength() {
+		return this.listLength;
+	}
 
-	public void addEntity(Entity entity) throws duplicateEntityException{
-			
-		if(isThere(entity)) {
-				throw new duplicateEntityException("Entity already exists in list");
-			}
-		
+	public void addEntity(Entity entity) throws duplicateEntityException {
+
+		if (isThere(entity)) {
+			throw new duplicateEntityException("Entity already exists in list");
+		}
 
 		if (head == null && tail == null) {// leere liste
-			head = new data(entity, null, null);
+			head = new Data(entity, null, null);
 			tail = head;
 			listLength++;
 		} else if (listLength == 1) {// liste nur mit 1
-			tail = new data(entity, head, null);
+			tail = new Data(entity, head, null);
 			head.setNext(tail);
 			listLength++;
 		} else if (listLength >= 2) {// liste mit mehr 2 oder mehr
-			tail.setNext(new data(entity, tail, null));
+			tail.setNext(new Data(entity, tail, null));
 			tail = tail.getNext();
 			listLength++;
 		}
 	}
 
 	public void removeEntity(Entity entity) throws missingEntityException {
-		data i;
-		
-		if(!isThere(entity)) {
+		Data i;
+
+		if (!isThere(entity)) {
 			throw new missingEntityException("Entity missing, cannot be removed");
 		}
 
@@ -79,7 +87,7 @@ public class EntitySet {
 				if (listLength == 1) {// wenn head und tail gleich sind
 					head = null;
 					listLength--;
-				} else if(i == head){ //wenn head gesucht und länge nicht 1 ist
+				} else if (i == head) { // wenn head gesucht und länge nicht 1 ist
 					head = head.getNext();
 					head.setPrev(null);
 					listLength--;
@@ -95,137 +103,132 @@ public class EntitySet {
 			}
 		}
 	}
-	
-	public void nextStepCaller() { //EntityContext entityContext
-		data i;
-	//	Entity.setEntityContext(entityContext);
-		for(i = head; i != null; i = i.getNext()) {
-			i.getEntity().nextStep();
+
+	public void nextStepCaller() { // EntityContext entityContext
+		// Entity.setEntityContext(entityContext);
+		for (Enumeration<Entity> e = this.enumerateRandom(); e.hasMoreElements();) {
+			e.nextElement().nextStep();
 		}
 	}
 
 	public String toString() {
 		String s = "";
-		data i;
-		if(listLength == 0) {
+		Data i;
+		if (listLength == 0) {
 			return "Liste leer :(";
 		}
-		for(i = head; i != null; i = i.getNext()) {
-			s = s +  i.getEntity().toString() + "\n";
+		for (i = head; i != null; i = i.getNext()) {
+			s = s + i.getEntity().toString() + "\n";
 		}
 		return s;
 	}
 
 	public boolean isThere(Entity entity) {
-		data i;
-		for(i = head; i != null; i = i.getNext()) {
-			if(i.getEntity().getId() == entity.getId()) {
+		Data i;
+		for (i = head; i != null; i = i.getNext()) {
+			if (i.getEntity().getId() == entity.getId()) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	//for unit test
+	// for unit test
 	public boolean reallyMoved(Entity entity1, Entity entity2) {
-	
-		int a,b,c,d;
+
+		int a, b, c, d;
 		a = entity1.getPos().getX();
 		b = entity1.getPos().getY();
 		c = entity2.getPos().getX();
 		d = entity2.getPos().getY();
 
-		if(a == c && b == d) {
+		if (a == c && b == d) {
 			return false;
-		}else {
+		} else {
 			return true;
-			}
 		}
+	}
 
 	public Entity getEntityAt(int index) {
-		data i;
-		for(i = head; i != null; i = i.getNext()) {
-			if(index-- == 0) {
+		Data i;
+		for (i = head; i != null; i = i.getNext()) {
+			if (index-- == 0) {
 				return i.getEntity();
 			}
 		}
 		return null;
 	}
-	
-	
+
 	public Enumeration<Entity> enumerateForward() {
-		
+
 		return new Enumeration<Entity>() {
-			
-			private int counter = 0;
-			
+
+			int index = 0;
+
 			@Override
 			public boolean hasMoreElements() {
-				return counter<listLength;
+
+				return index < listLength;
 			}
 
 			@Override
 			public Entity nextElement() {
-				return getEntityAt(counter++);
-			}
-		
-		};	
 
-	}
-	
-	public Enumeration<Entity> enumerateBackwards(){
-		return new Enumeration<Entity>() {
-			
-			private int counter = listLength-1;
-
-			@Override
-			public boolean hasMoreElements() {
-				return counter >= listLength;
+				return getEntityAt(index++);
 			}
 
-			@Override
-			public Entity nextElement() {
-				return getEntityAt(counter--);
-			}
-			
 		};
+
 	}
-	
-public Enumeration<Entity> enumerateRandom() {
-		
-		return new Enumeration<Entity>() {
-			
-			private Integer[] enumerated = new Integer[listLength];
-			private int index=0;
-			private static Random random;
-			
+
+	public Enumeration<Entity> enumerateBackwards() {
+
+		class EnumerateBack implements Enumeration<Entity> {
+
+			int index = listLength - 1;
+
 			@Override
 			public boolean hasMoreElements() {
-				return index<listLength;
+				return index > 0;
 			}
 
 			@Override
 			public Entity nextElement() {
-				
-				int i;
-				
-				do {
-					i = random.nextInt(listLength);
-					
-				}while(Arrays.asList(enumerated).contains(i));
-				enumerated[index++] = Integer.valueOf(i);
-				return getEntityAt(i);
+				return getEntityAt(index--);
 			}
-		
-		};	
-		
-		
-	};
-	
 
-	
+		}
+		;
+		return new EnumerateBack();
+	}
 
-	
-	
+	private class EnumerateRandom implements Enumeration<Entity> {
+
+		private Integer[] used = new Integer[listLength];
+		private int index = 0;
+		private static Random random = new Random();
+		
+		@Override
+		public boolean hasMoreElements() {
+			return index < listLength;
+		}
+		
+		@Override
+		public Entity nextElement() {
+			int i;
+
+			do {
+				i = random.nextInt(listLength);
+			} while (Arrays.asList(used).contains(i));
+
+			used[index++] = i;
+
+			return getEntityAt(i);
+		}
+	}
+
+	public Enumeration<Entity> enumerateRandom() {
+		return new EnumerateRandom();
+	}
+
 }
-

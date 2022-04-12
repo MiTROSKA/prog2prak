@@ -6,9 +6,25 @@ public abstract class Beasts extends Entity {
 	public void updatePosition(XY newPos) { this.position = newPos; }
 
 	public void updateEnergy(int deltaWert) { energy += deltaWert; }
-
-	public abstract void nextStep();
 	
 	public abstract XY beastMove(XY diffVector);
+	
+	public void nextStep() { 
+		if (stepCount == 4) {
+		XY wouldPos;
+		Squirrel nearestSquirrel = entityContext.getNearestSquirrel(position);
+		if(nearestSquirrel == null) {
+			wouldPos = position.randomMove();
+		} else {
+			XY direction = beastMove(position.realDiffCalc(nearestSquirrel.getPos()));
+			wouldPos = position.move(direction);
+		}
+		
+		if(entityContext.moveOk(this, wouldPos)) { 
+			position = wouldPos;
+			} 
+		stepCount = 1;
+		} else stepCount++;
+	}
 		
 }

@@ -144,6 +144,7 @@ public class CollisionTest {
 		h.setMoveCommand(new MoveCommand(XY.DOWN));
 		h.nextStep();
 		
+		assertTrue(bb.getLifePoints() == 6); 
 		assertEquals(shouldEnergy, h.getEnergy());
 		assertFalse(bb.isDead());
 		assertEquals(oldPos, h.getPos());

@@ -25,7 +25,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		}
 	}
 
-	public Squirrel getNearestSquirrel(XY searchStart) { 
+	public Squirrel getNearestSquirrel(XY searchStart) {
 		Entity nearestSquirrel = null;
 		XY nearPos = null;
 		Entity squirrel = squirrelList.getEntityAt(0);
@@ -41,6 +41,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 					XY oldDiff = searchStart.fakeDiffCalc(nearPos);
 					if (difference.getX() < oldDiff.getX() || difference.getY() < oldDiff.getY()) {
 						nearestSquirrel = squirrel;
+						nearPos = nearestSquirrel.getPos();
 					}
 				}
 			}
@@ -132,7 +133,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			}
 		}
 
-		return true; 
+		return true;
 	}
 
 	private void move(Entity entity, XY newPos) {

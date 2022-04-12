@@ -1,9 +1,11 @@
 package prog2Prak2.unitTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+//import java.util.Arrays;
+import java.util.Enumeration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import prog2Prak2.entities.BadBeast;
 import prog2Prak2.entities.BadPlant;
 import prog2Prak2.entities.Entity;
@@ -137,6 +139,13 @@ public class EntitySetTest {
 		Entity.setEntityContext(new testEntityContext());
 		entityset.nextStepCaller();
 		
+		//because of StepCounter
+		for(int i = 0; i<3; i++) {
+			gb.nextStep();
+			bb.nextStep();
+		}
+		
+		
 		assertTrue(entityset.reallyMoved(gb, gb1));
 		assertTrue(entityset.reallyMoved(bb, bb1));
 		//pflanze kann sich nicht bewegen
@@ -145,6 +154,110 @@ public class EntitySetTest {
 		assertFalse(entityset.reallyMoved(w, w1));
 
 	}
+	
+	@Test
+	public void enumerateForwardTest() {
+		int counter = 0;
+		Entity e0 = null;
+		Entity e1 = null;
+		Entity e2 = null;
+		Entity e3 = null;
+		Entity e4 = null;
+		
+		for(Enumeration<Entity> e = entityset.enumerateForward(); e.hasMoreElements();) {
+			if(counter == 0) {
+				e0 = e.nextElement();
+				counter++;
+			}
+			if(counter == 1) {
+				e1 = e.nextElement();
+				counter++;
+			}
+			if(counter == 2) {
+				e2 = e.nextElement();
+				counter++;
+			}
+			if(counter == 3) {
+				e3 = e.nextElement();
+				counter++;
+			}
+			if(counter == 4) {
+				e4 = e.nextElement();
+				counter++;
+			}
+		}
+		
+		assertEquals(gb, e0);
+		assertEquals(bb, e1);
+		assertEquals(gp, e2);
+		assertEquals(bp, e3);
+		assertEquals(w, e4);
+		
+	} 
+	
+	@Test
+	public void enumerateBackwardTest() {
+		int counter = 0;
+		Entity e0 = null;
+		Entity e1 = null;
+		Entity e2 = null;
+		Entity e3 = null;
+		Entity e4 = null;
+		
+		for(Enumeration<Entity> e = entityset.enumerateBackwards(); e.hasMoreElements();) {
+			if(counter == 0) {
+				e0 = e.nextElement();
+				counter++;
+			}
+			if(counter == 1) {
+				e1 = e.nextElement();
+				counter++;
+			}
+			if(counter == 2) {
+				e2 = e.nextElement();
+				counter++;
+			}
+			if(counter == 3) {
+				e3 = e.nextElement();
+				counter++;
+			}
+			if(counter == 4) {
+				e4 = e.nextElement();
+				counter++;
+			}
+		}
+		
+		assertEquals(gb, e4);
+		assertEquals(bb, e3);
+		assertEquals(gp, e2);
+		assertEquals(bp, e1);
+		assertEquals(w, e0);
+		
+	} 
+	 
+	@Test
+	public void enumerateRandomTest() {
+		Entity[]ogArray = new Entity[entityset.getListLength()];
+		Entity[]randomEntArray = new Entity[entityset.getListLength()];
+		Enumeration<Entity> e = entityset.enumerateRandom();
+		Enumeration<Entity> e1 = entityset.enumerateForward();
+		
+	
+		for(int i = 0; e.hasMoreElements(); i++) {
+			randomEntArray[i] = e.nextElement();
+		}
+		
+		for(int i = 0; e1.hasMoreElements(); i++) {
+			ogArray[i] = e1.nextElement();
+		}
+		
+		//assertNotEquals(Arrays.toString(ogArray), Arrays.toString(randomEntArray));
+		assertNotEquals(ogArray,randomEntArray);
+		
+		
+		 
+	}
+	
 }
 
 

@@ -1,38 +1,38 @@
 package prog2Prak2.entities;
 
-public class MiniSquirrel extends Squirrel{
+public class MiniSquirrel extends Squirrel {
 	private int parentToken;
-	
-	public MiniSquirrel (int x, int y, int energy, int id) {
+
+	public MiniSquirrel(int x, int y, int energy, int Token) {
 		position = new XY(x, y);
 		this.energy = energy;
 		this.id = idCounter++;
-		this.parentToken = id;
+		this.parentToken = Token;
 		dead = false;
 	}
 
-	public void nextStep() { 
-		if(stunCounter == 0) {
+	public void nextStep() {
+		if (stunCounter == 0) {
 			updateEnergy(-1);
 			XY newPos = position.randomMove();
-			if(entityContext.moveOk(this, newPos)) {
-			 this.position = newPos;
+			if (entityContext.moveOk(this, newPos)) {
+				this.position = newPos;
 			}
-		} else stunCounter--;
-		
+		} else
+			stunCounter--;
+
 	}
 
 	public int getParentToken() {
 		return this.parentToken;
 	}
-	
-	public void updateEnergy(int deltaWert) { 
-		energy += deltaWert; 
-		if(energy <= 0) {
+
+	public void updateEnergy(int deltaWert) {
+		energy += deltaWert;
+		if (energy <= 0) {
 			dead = true;
 		}
-		
-		
+
 	}
 
 	public String toString() {

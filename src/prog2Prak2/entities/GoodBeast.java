@@ -9,29 +9,11 @@ public class GoodBeast extends Beasts{
 		dead = false;
 	}
 	
-	public void nextStep() { 
-		if (stepCount == 4) {
-			XY wouldPos;
-			Squirrel nearestSquirrel = entityContext.getNearestSquirrel(position);
-			if(nearestSquirrel == null) {
-				wouldPos = position.randomMove();
-			} else {
-				XY direction = beastMove(position.realDiffCalc(nearestSquirrel.getPos()));
-				wouldPos = position.move(direction);
-			}
-
-			if(entityContext.moveOk(this, wouldPos)) {
-				position = wouldPos;
-				} 
-			stepCount = 1;
-			} else stepCount++;
-	}
-
 	public String toString() {
 		return "GoodBeast nr: " + id + " Position: " + position.getX() + " " + position.getY();
 	}
-
 	
+	@Override
 	public XY beastMove(XY diffVector) {
 		return diffVector.abnormalize().negate();
 	}
