@@ -154,15 +154,21 @@ public class CollisionTest {
 		assertFalse(entityset.isThere(entity));
 		assertSame(entityset.getEntityAt(0), squirrel);
 		assertNotSame(entityset.getEntityAt(1), entity);
-		if(entity instanceof GoodPlant) {
-        	assertTrue(entityset.getEntityAt(1) instanceof GoodPlant);
-        } if(entity instanceof BadPlant) {
-        	assertTrue(entityset.getEntityAt(1) instanceof BadPlant);
-        } if(entity instanceof GoodBeast) {
-        	assertTrue(entityset.getEntityAt(1) instanceof GoodBeast);
-        } if(entity instanceof BadBeast) {
-        	assertTrue(entityset.getEntityAt(1) instanceof BadBeast);
-        }
+
+		switch (entity) {
+			case GoodPlant:
+				assertTrue(entityset.getEntityAt(1) instanceof GoodPlant);
+				break;
+			case BadPlant:
+				assertTrue(entityset.getEntityAt(1) instanceof BadPlant);
+				break;
+			case BadBeast:
+				assertTrue(entityset.getEntityAt(1) instanceof GoodBeast);
+				break;
+			case GoodBeast:
+				assertTrue(entityset.getEntityAt(1) instanceof BadBeast);
+				break;
+		}
 		assertTrue(entityset.reallyMoved(squirrel, entityset.getEntityAt(1)));
 	}
 	

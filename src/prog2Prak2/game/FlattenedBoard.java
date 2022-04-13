@@ -145,22 +145,27 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			y = random.nextInt(flatBoardSize.getY());
 		} while (entityArray[x][y] != null);
 
-		if (altair instanceof GoodPlant) {
-			GoodPlant gp = new GoodPlant(x, y);
-			entityset.addEntity(gp);
-			entityArray[x][y] = gp;
-		} else if (altair instanceof BadPlant) {
-			BadPlant bp = new BadPlant(x, y);
-			entityset.addEntity(bp);
-			entityArray[x][y] = bp;
-		} else if (altair instanceof BadBeast) {
-			BadBeast bb = new BadBeast(x, y);
-			entityset.addEntity(bb);
-			entityArray[x][y] = bb;
-		} else if (altair instanceof GoodBeast) {
-			GoodBeast gb = new GoodBeast(x, y);
-			entityset.addEntity(gb);
-			entityArray[x][y] = gb;
+		switch (altair) {
+			case GoodPlant:
+				GoodPlant gp = new GoodPlant(x, y);
+				entityset.addEntity(gp);
+				entityArray[x][y] = gp;
+				break;
+			case BadPlant:
+				BadPlant bp = new BadPlant(x, y);
+				entityset.addEntity(bp);
+				entityArray[x][y] = bp;
+				break;
+			case BadBeast:
+				BadBeast bb = new BadBeast(x, y);
+				entityset.addEntity(bb);
+				entityArray[x][y] = bb;
+				break;
+			case GoodBeast:
+				GoodBeast gb = new GoodBeast(x, y);
+				entityset.addEntity(gb);
+				entityArray[x][y] = gb;
+				break;
 		}
 	}
 
@@ -175,20 +180,28 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		Entity entity;
 		entity = entityArray[x][y];
 
-		if (entity == null) {
-			return EntityType.NULL;
-		} else if (entity instanceof HandOperatedMasterSquirrel) {
-			return EntityType.MASTERSQUIRREL;
-		} else if (entity instanceof GoodBeast) {
-			return EntityType.GOODBEAST;
-		} else if (entity instanceof BadBeast) {
-			return EntityType.BADBEAST;
-		} else if (entity instanceof GoodPlant) {
-			return EntityType.GOODPLANT;
-		} else if (entity instanceof BadPlant) {
-			return EntityType.BADPLANT;
-		} else if (entity instanceof Wall) {
-			return EntityType.WALL;
+		switch (entity){
+			case(null):
+				EntityType.NULL;
+				break;
+			case(HandOperatedMasterSquirrel):
+				EntityType.HandOperatedMasterSquirrel;
+				break;
+			case(GoodBeast):
+				EntityType.GoodBeast;
+				break;
+			case(BADBEAST):
+				EntityType.BADBEAST;
+				break;
+			case(GoodPlant):
+				EntityType.GoodPlant;
+				break;
+			case(BADPLANT):
+				EntityType.BADPLANT;
+				break;
+			case(Wall):
+				EntityType.Wall;
+				break;
 		}
 
 		return EntityType.NULL;

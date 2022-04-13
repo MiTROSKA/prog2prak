@@ -11,20 +11,20 @@ public class ConsoleUI implements UI{
 		String input = scanner.nextLine();
 		
 		switch(input) {
-		case "w":
-		case "W":
-			return new MoveCommand(XY.UP);
-		case "a":
-		case "A":
-			return new MoveCommand(XY.LEFT);
-		case "s":
-		case "S":
-			return new MoveCommand(XY.DOWN);
-		case "d":
-		case "D":
-			return new MoveCommand(XY.RIGHT);
-			
-		default: return new MoveCommand(new XY(0, 0));
+			case "w":
+			case "W":
+				return new MoveCommand(XY.UP);
+			case "a":
+			case "A":
+				return new MoveCommand(XY.LEFT);
+			case "s":
+			case "S":
+				return new MoveCommand(XY.DOWN);
+			case "d":
+			case "D":
+				return new MoveCommand(XY.RIGHT);
+
+			default: return new MoveCommand(new XY(0, 0));
 		}
 	}
 	
@@ -34,19 +34,19 @@ public class ConsoleUI implements UI{
 		for(int y = 0; y < size.getY(); y++) {
 			for(int x = 0; x < size.getX(); x++) {
 				switch(view.getEntityType(x, y)) {
-				case MASTERSQUIRREL: 
-					element = " s"; break;
-				case GOODBEAST:
-					element = " G"; break;
-				case BADBEAST:
-					element = " B"; break;
-				case GOODPLANT:
-					element = " g"; break;
-				case BADPLANT:
-					element = " b"; break;
-				case WALL:
-					element = " #"; break;
-				default: element = " _"; break;
+					case MASTERSQUIRREL:
+						element = " s"; break;
+					case GOODBEAST:
+						element = " G"; break;
+					case BADBEAST:
+						element = " B"; break;
+					case GOODPLANT:
+						element = " g"; break;
+					case BADPLANT:
+						element = " b"; break;
+					case WALL:
+						element = " #"; break;
+					default: element = " _"; break;
 				}
 				System.out.print(element);
 			}

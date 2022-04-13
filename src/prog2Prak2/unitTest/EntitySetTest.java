@@ -146,80 +146,32 @@ public class EntitySetTest {
 	
 	@Test
 	public void enumerateForwardTest() {
-		int counter = 0;
 		Entity e0 = null;
 		Entity e1 = null;
 		Entity e2 = null;
 		Entity e3 = null;
 		Entity e4 = null;
 		
-		for(Enumeration<Entity> e = entityset.enumerateForward(); e.hasMoreElements();) {
-			if(counter == 0) {
-				e0 = e.nextElement();
-				counter++;
-			}
-			if(counter == 1) {
-				e1 = e.nextElement();
-				counter++;
-			}
-			if(counter == 2) {
-				e2 = e.nextElement();
-				counter++;
-			}
-			if(counter == 3) {
-				e3 = e.nextElement();
-				counter++;
-			}
-			if(counter == 4) {
-				e4 = e.nextElement();
-				counter++;
-			}
-		}
-		
-		assertEquals(gb, e0);
-		assertEquals(bb, e1);
-		assertEquals(gp, e2);
-		assertEquals(bp, e3);
-		assertEquals(w, e4);
+		assertEquals(gb, e0 = e.nextElement());
+		assertEquals(bb, e1 = e.nextElement());
+		assertEquals(gp, e2 = e.nextElement());
+		assertEquals(bp, e3 = e.nextElement());
+		assertEquals(w, e4 = e.nextElement());
 	} 
 	
 	@Test
 	public void enumerateBackwardTest() {
-		int counter = 0;
 		Entity e0 = null;
 		Entity e1 = null;
 		Entity e2 = null;
 		Entity e3 = null;
 		Entity e4 = null;
 		
-		for(Enumeration<Entity> e = entityset.enumerateBackwards(); e.hasMoreElements();) {
-			if(counter == 0) {
-				e0 = e.nextElement();
-				counter++;
-			}
-			if(counter == 1) {
-				e1 = e.nextElement();
-				counter++;
-			}
-			if(counter == 2) {
-				e2 = e.nextElement();
-				counter++;
-			}
-			if(counter == 3) {
-				e3 = e.nextElement();
-				counter++;
-			}
-			if(counter == 4) {
-				e4 = e.nextElement();
-				counter++;
-			}
-		}
-		
-		assertEquals(gb, e4);
-		assertEquals(bb, e3);
-		assertEquals(gp, e2);
-		assertEquals(bp, e1);
-		assertEquals(w, e0);
+		assertEquals(gb, e4 = e.nextElement());
+		assertEquals(bb, e3 = e.nextElement());
+		assertEquals(gp, e2 = e.nextElement());
+		assertEquals(bp, e1 = e.nextElement());
+		assertEquals(w, e0 = e.nextElement());
 		
 	} 
 	 
