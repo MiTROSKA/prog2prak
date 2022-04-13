@@ -36,7 +36,7 @@ public class EntitySetTest {
 		gp = new GoodPlant(23, 23);
 		bp = new BadPlant(23, 23);
 		w = new Wall(23, 23);
-		handOpMs = new HandOperatedMasterSquirrel(23,23);
+		handOpMs = new HandOperatedMasterSquirrel(23, 23);
 
 		entityset.addEntity(gb);
 		entityset.addEntity(bb);
@@ -52,11 +52,11 @@ public class EntitySetTest {
 		assertTrue(entityset.isThere(gp));
 		assertTrue(entityset.isThere(bp));
 		assertTrue(entityset.isThere(w));
-		assertFalse(entityset.isThere(handOpMs));
+		assertFalse(entityset.isThere((Entity) handOpMs));
 	}
 
 	@Test
-	public void removeTest() { 
+	public void removeTest() {
 		entityset.removeEntity(gb);
 		entityset.removeEntity(bb);
 		entityset.removeEntity(gp);
@@ -86,7 +86,7 @@ public class EntitySetTest {
 		try {
 			entityset.addEntity(bb);
 			fail();
-		} catch(duplicateEntityException ignored) {
+		} catch (duplicateEntityException ignored) {
 
 		}
 	}
@@ -94,19 +94,19 @@ public class EntitySetTest {
 	@Test
 	public void missingEntityExcTest() {
 		try {
-			entityset.removeEntity(handOpMs);
+			entityset.removeEntity((Entity) handOpMs);
 			fail();
 		} catch (missingEntityException ignored) {
 
 		}
 	}
-	
+
 	public static class testEntityContext implements EntityContext {
-			
-		public boolean moveOk(Entity entity, XY pos) {
-			return true;
+
+		public void move(Entity entity, XY pos) {
+			entity.updatePosition(pos);
 		}
-		
+
 		public XY getSize() {
 			return null;
 		}
@@ -120,125 +120,71 @@ public class EntitySetTest {
 
 	@Test
 	public void nextStepTest() {
-		
+
 		GoodBeast gb1 = new GoodBeast(23, 23);
-		BadBeast bb1 = new BadBeast(23,23);
-		GoodPlant gp1 = new GoodPlant(23,23);  
+		BadBeast bb1 = new BadBeast(23, 23);
+		GoodPlant gp1 = new GoodPlant(23, 23);
 		BadPlant bp1 = new BadPlant(23, 23);
-		Wall w1 = new Wall(23,23);
-	
+		Wall w1 = new Wall(23, 23);
+
 		Entity.setEntityContext(new testEntityContext());
 		entityset.nextStepCaller();
-		
-		//because of StepCounter
-		for(int i = 0; i<3; i++) {
+
+		// because of StepCounter
+		for (int i = 0; i < 3; i++) {
 			gb.nextStep();
 			bb.nextStep();
 		}
 
 		assertTrue(entityset.reallyMoved(gb, gb1));
 		assertTrue(entityset.reallyMoved(bb, bb1));
-		//pflanze kann sich nicht bewegen
+		// pflanze kann sich nicht bewegen
 		assertFalse(entityset.reallyMoved(gp, gp1));
 		assertFalse(entityset.reallyMoved(bp, bp1));
 		assertFalse(entityset.reallyMoved(w, w1));
 	}
-	
+
 	@Test
 	public void enumerateForwardTest() {
-		int counter = 0;
-		Entity e0 = null;
-		Entity e1 = null;
-		Entity e2 = null;
-		Entity e3 = null;
-		Entity e4 = null;
-		
-		for(Enumeration<Entity> e = entityset.enumerateForward(); e.hasMoreElements();) {
-			if(counter == 0) {
-				e0 = e.nextElement();
-				counter++;
-			}
-			if(counter == 1) {
-				e1 = e.nextElement();
-				counter++;
-			}
-			if(counter == 2) {
-				e2 = e.nextElement();
-				counter++;
-			}
-			if(counter == 3) {
-				e3 = e.nextElement();
-				counter++;
-			}
-			if(counter == 4) {
-				e4 = e.nextElement();
-				counter++;
-			}
-		}
-		
-		assertEquals(gb, e0);
-		assertEquals(bb, e1);
-		assertEquals(gp, e2);
-		assertEquals(bp, e3);
-		assertEquals(w, e4);
-	} 
-	
+
+		Enumeration<Entity> e = entityset.enumerateForward();
+
+		assertEquals(gb, e.nextElement());
+		assertEquals(bb, e.nextElement());
+		assertEquals(gp, e.nextElement());
+		assertEquals(bp, e.nextElement());
+		assertEquals(w, e.nextElement());
+	}
+ 
 	@Test
 	public void enumerateBackwardTest() {
-		int counter = 0;
-		Entity e0 = null;
-		Entity e1 = null;
-		Entity e2 = null;
-		Entity e3 = null;
-		Entity e4 = null;
-		
-		for(Enumeration<Entity> e = entityset.enumerateBackwards(); e.hasMoreElements();) {
-			if(counter == 0) {
-				e0 = e.nextElement();
-				counter++;
-			}
-			if(counter == 1) {
-				e1 = e.nextElement();
-				counter++;
-			}
-			if(counter == 2) {
-				e2 = e.nextElement();
-				counter++;
-			}
-			if(counter == 3) {
-				e3 = e.nextElement();
-				counter++;
-			}
-			if(counter == 4) {
-				e4 = e.nextElement();
-				counter++;
-			}
-		}
-		
-		assertEquals(gb, e4);
-		assertEquals(bb, e3);
-		assertEquals(gp, e2);
-		assertEquals(bp, e1);
-		assertEquals(w, e0);
-		
-	} 
-	 
+
+		Enumeration<Entity> e = entityset.enumerateBackwards();
+
+		assertEquals(w, e.nextElement());
+		assertEquals(bp, e.nextElement());
+		assertEquals(gp, e.nextElement());
+		assertEquals(bb, e.nextElement());
+		assertEquals(gb, e.nextElement());
+
+	}
+
 	@Test
 	public void enumerateRandomTest() {
-		Entity[]ogArray = new Entity[entityset.getListLength()];
-		Entity[]randomEntArray = new Entity[entityset.getListLength()];
-		Enumeration<Entity> e = entityset.enumerateRandom();
-		Enumeration<Entity> e1 = entityset.enumerateForward();
 	
-		for(int i = 0; e.hasMoreElements(); i++) {
-			randomEntArray[i] = e.nextElement();
-		}
+		Enumeration<Entity> e0 = entityset.enumerateRandom(532);
+		Enumeration<Entity> e1 = entityset.enumerateRandom(532);
 		
-		for(int i = 0; e1.hasMoreElements(); i++) {
-			ogArray[i] = e1.nextElement();
-		}
-		
-		//assertNotEquals(Arrays.toString(ogArray), Arrays.toString(randomEntArray));
-		assertNotEquals(ogArray,randomEntArray);
+		assertEquals(e0.nextElement(), e1.nextElement());
+		assertEquals(e0.nextElement(), e1.nextElement());
+		assertEquals(e0.nextElement(), e1.nextElement());
+		assertEquals(e0.nextElement(), e1.nextElement());
+		assertEquals(e0.nextElement(), e1.nextElement());
+
+	
 	}
 }
+
+
+
+

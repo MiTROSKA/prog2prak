@@ -1,7 +1,8 @@
 package prog2Prak2.entities;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Enumeration;
+//import java.util.List;
 import java.util.Random;
 
 //import prog2Prak2.game.EntityContext;
@@ -176,16 +177,19 @@ public class EntitySet {
 
 		class EnumerateBack implements Enumeration<Entity> {
 
-			int index = listLength - 1;
+			Data i = tail;
 
 			@Override
 			public boolean hasMoreElements() {
-				return index > 0;
+				return i != null;
 			}
 
 			@Override
 			public Entity nextElement() {
-				return getEntityAt(index--);
+				Entity entity = i.getEntity();
+				i = i.getPrev();
+
+				return entity;
 			}
 
 		}
@@ -194,51 +198,60 @@ public class EntitySet {
 	}
 
 	private class EnumerateRandom implements Enumeration<Entity> {
-
-		private final Integer[] used = new Integer[listLength];
-		private int index = 0;
-		private static final Random random = new Random();
+		//private Integer[] used = new Integer[listLength];
+		//private int index = 0;
+		private final Random random = new Random();
+		private int l = listLength;
+		int[] indexArr = new int[l];
 		
+		public EnumerateRandom() {
+			for (int j = 0; j < l; j++) {
+				indexArr[j] = j;
+			}
+		}
+
+		public void setSeed(long seed) {
+			random.setSeed(seed);
+		}
+
 		@Override
 		public boolean hasMoreElements() {
-			return index < listLength;
+			return  l > 0; //index < listLength; 
 		}
-		
+
 		@Override
 		public Entity nextElement() {
+			int index;
+			index = indexArr[random.nextInt(l)];
+
+			for (int j = 0; j < l; j++) { 
+				if (index == indexArr[j]) {
+					indexArr[j] = indexArr[l - 1];
+					l--;
+				} 
+			}
+			return getEntityAt(index);
+		} 
+		
+	/*	public Entity nextElement() {
 			int i;
+			List<Integer> arr = Arrays.asList(used);
 			do {
 				i = random.nextInt(listLength);
-			} while (Arrays.asList(used).contains(i));
+			} while (arr.contains(i));
 			used[index++] = i;
 			return getEntityAt(i);
-		}
+		} */
 	}
 
 	public Enumeration<Entity> enumerateRandom() {
 		return new EnumerateRandom();
 	}
-	
-	
-	public Enumeration<Entity> enumerateBaccAno() {
-		return new Enumeration<Entity>() {
 
-			int index = listLength-1;
-			
-			@Override
-			public boolean hasMoreElements() {
-				return index > 0;
-			}
-
-			@Override
-			public Entity nextElement() {
-				return getEntityAt(index--);
-			}
-			
-			
-			
-		};
-		
+	public Enumeration<Entity> enumerateRandom(long seed) {
+		EnumerateRandom rand = new EnumerateRandom();
+		rand.setSeed(seed);
+		return rand;
 	}
 
 }

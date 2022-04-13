@@ -75,9 +75,9 @@ class EntityContextDummy implements EntityContext{
 	}
 
 	@Override
-	public boolean moveOk(Entity entity, XY moveDirection) {
+	public void move(Entity entity, XY moveDirection) {
 		// TODO Auto-generated method stub
-		return true;
+		
 	}
 
 	@Override

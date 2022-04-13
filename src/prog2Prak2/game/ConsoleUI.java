@@ -46,6 +46,8 @@ public class ConsoleUI implements UI{
 					element = " b"; break;
 				case WALL:
 					element = " #"; break;
+				case MINISQUIRREL:
+					element = " m"; break;
 				default: element = " _"; break;
 				}
 				System.out.print(element);

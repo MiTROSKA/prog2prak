@@ -2,7 +2,7 @@ package prog2Prak2.entities;
 
 import prog2Prak2.game.MoveCommand;
 
-public class HandOperatedMasterSquirrel extends Squirrel {
+public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	private MoveCommand moveCommand;
 
 	public HandOperatedMasterSquirrel(int x, int y) {
@@ -10,14 +10,14 @@ public class HandOperatedMasterSquirrel extends Squirrel {
 		energy = 500;
 		position = new XY(x, y);
 		dead = false;
-	}
+	} 
 
 	public void updateEnergy(int deltaWert) {
 		energy += deltaWert;
 		if (energy <= 0) {
 			dead = true;
-			System.out.println("WASTED");
-			// System.exit(0);
+			System.out.println("Game Over");
+			System.exit(0);
 		}
 	}
 
@@ -28,9 +28,7 @@ public class HandOperatedMasterSquirrel extends Squirrel {
 	public void nextStep() {
 		if (stunCounter == 0) {
 			XY newPos = position.move(moveCommand.direction);
-			if (entityContext.moveOk(this, newPos)) {
-				this.position = newPos;
-			}
+			entityContext.move(this, newPos);
 		} else stunCounter--;
 	}
 

@@ -19,10 +19,8 @@ public abstract class Beasts extends Entity {
 				XY direction = beastMove(position.realDiffCalc(nearestSquirrel.getPos()));
 				wouldPos = position.move(direction);
 			}
-
-			if(entityContext.moveOk(this, wouldPos)) {
-				position = wouldPos;
-			} 
+			entityContext.move(this, wouldPos);
+			
 			stepCount = 1;
 		} else stepCount++;
 	}

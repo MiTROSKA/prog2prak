@@ -52,90 +52,117 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return (Squirrel) nearestSquirrel;
 	}
 
-	public boolean moveOk(Entity entity, XY wouldPos) {
-		boolean itsOk = false;
-
-		if (wouldPos.getX() < 0 || wouldPos.getY() < 0 || wouldPos.getX() >= flatBoardSize.getX()
-				|| wouldPos.getY() >= flatBoardSize.getY()) {
-			return false;
-		}
-		Entity hindrance = entityArray[wouldPos.getX()][wouldPos.getY()];
-
-		if (hindrance == null) {
-			move(entity, wouldPos);
-			return true;
-		}
-
-		if (entity instanceof Squirrel squirrel) {
-			itsOk = squirrelMoveRuling(squirrel, hindrance);
-		} else if (hindrance instanceof Squirrel squirrel) { // ?
-			itsOk = squirrelMoveRuling(squirrel, entity);
-		}
-
-		if (hindrance.isDead()) {reMove(hindrance);}
-
-		if (entity.isDead()) {reMove(entity);}
-
-		if (itsOk) {move(entity, wouldPos);}
-
-		return itsOk;
-	}
-
-	private boolean squirrelMoveRuling(Squirrel squirrel, Entity hindrance) { // ?
-		if (!(hindrance instanceof Squirrel)) {
-			squirrel.updateEnergy(hindrance.getEnergy());
-
-			if (hindrance instanceof Wall) {
-				squirrel.stunned();
-				return false;
-			} else if (!(hindrance instanceof BadBeast)) {
-				hindrance.die();
-				reCreate(hindrance);
-				return true;
-			} else {
-				((BadBeast) hindrance).payLifePoint();
-				if (hindrance.isDead()) {
-					reCreate(hindrance);
-					return true;
-				}
-				return false;
-			}
-		}
-
-		if (squirrel instanceof MiniSquirrel miniSquirrel) {
-			if (hindrance instanceof HandOperatedMasterSquirrel handOpMs) {
-				if (miniSquirrel.getParentToken() == handOpMs.getId()) { // wenn mini auf gleiches Mastersquirrel
-					handOpMs.updateEnergy(miniSquirrel.getEnergy());
-					miniSquirrel.die();
-				} else {
-					miniSquirrel.die(); // wenn mini auf anderes MasterSquirrel
-				}
-			} else if (hindrance instanceof MiniSquirrel miniHindrance) { // mini auf anderes mini
-				if (miniSquirrel.getParentToken() != miniHindrance.getParentToken()) {
-					miniSquirrel.die();
-				} else {
-					// passiert nix mini auf gleiches mini
-				}
-			}
-		}
-
-		if (squirrel instanceof HandOperatedMasterSquirrel handOpMs1) { // master auf master
-			if (hindrance instanceof HandOperatedMasterSquirrel) {
-				return false; // passiert nix
-			} else if (hindrance instanceof MiniSquirrel miniSquirrel1) { // master auf gleiches mini
-				if (handOpMs1.getId() == miniSquirrel1.getParentToken()) {
-					handOpMs1.updateEnergy(miniSquirrel1.getEnergy());
-					miniSquirrel1.die();
-				} else {
-					miniSquirrel1.die(); // master auf anderes mini
-				}
-			}
-		}
-		return true;
-	}
-
-	private void move(Entity entity, XY newPos) {
+	public void move(Entity entity, XY wouldPos) {
+		//Darf nicht auﬂerhalb des Spielfeldes sein
+		boolean isNotOutOfBounds = true;
+		boolean isHindranceNotNull = true;
+		int x, y;
 		XY oldPos = entity.getPos();
+		x = wouldPos.getX();
+		y = wouldPos.getY();
+
+		if (x < 0 || y < 0) {
+			entity.updatePosition(oldPos);
+			isNotOutOfBounds = false;
+		}
+
+		if (isNotOutOfBounds) {
+			Entity hindrance = entityArray[x][y];
+
+			if (hindrance == null) {
+				updatePos(entity, wouldPos);
+				isHindranceNotNull = false;
+			}
+			// erst weitermachen wenn hindrance nicht null ist
+			if (isHindranceNotNull) {
+				if (entity instanceof Squirrel squirrel) {
+					squirrelMoveRuling(squirrel, hindrance);
+				} else if (hindrance instanceof Squirrel squirrel) {
+					squirrelMoveRuling(squirrel, entity);
+				}
+				if (hindrance.isDead()) {
+					reMove(hindrance);
+				}
+
+				if (entity.isDead()) {
+					reMove(entity);
+				}
+			}
+		}
+	}
+
+	private void squirrelMoveRuling(Squirrel squirrel, Entity hindrance) {
+
+		// Squirrel auf alles was nicht Squirrel ist
+		switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
+		case WALL:
+			squirrel.updateEnergy(hindrance.getEnergy());
+			squirrel.stunned();
+			break;
+		case GOODBEAST:
+		case BADPLANT:
+		case GOODPLANT:
+			squirrel.updateEnergy(hindrance.getEnergy());
+			hindrance.die();
+			reCreate(hindrance);
+			updatePos(squirrel, hindrance.getPos());
+			break;
+		case BADBEAST:
+			squirrel.updateEnergy(hindrance.getEnergy());
+			((BadBeast) hindrance).payLifePoint();
+			if (hindrance.isDead()) {
+				reCreate(hindrance);
+				updatePos(squirrel, hindrance.getPos());
+			}
+			break;
+		default:
+			break;
+		}
+		// Squirrel ist Mini
+		if (squirrel instanceof MiniSquirrel) {
+			switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
+			case MASTERSQUIRREL:
+				if (((MiniSquirrel) squirrel).getParentToken() == hindrance.getId()) {
+					hindrance.updateEnergy(squirrel.getEnergy());
+					squirrel.die();
+				} else {
+					squirrel.die();
+				}
+				break;
+			case MINISQUIRREL:
+				if (((MiniSquirrel) squirrel).getParentToken() != ((MiniSquirrel) hindrance).getParentToken()) {
+					squirrel.die();
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		// Squirrel ist Master
+		if (squirrel instanceof MasterSquirrel) {
+			switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
+			case MASTERSQUIRREL:
+				break;
+			case MINISQUIRREL:
+				if (squirrel.getId() == ((MiniSquirrel) hindrance).getParentToken()) {
+					squirrel.updateEnergy(hindrance.getEnergy());
+					hindrance.die();
+					updatePos(squirrel, hindrance.getPos());
+				} else {
+					hindrance.die();
+					updatePos(squirrel, hindrance.getPos());
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+	}
+
+	private void updatePos(Entity entity, XY newPos) {
+		XY oldPos = entity.getPos();
+		entity.updatePosition(newPos);
 		entityArray[newPos.getX()][newPos.getY()] = entity;
 		entityArray[oldPos.getX()][oldPos.getY()] = null;
 	}
@@ -147,22 +174,29 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			y = random.nextInt(flatBoardSize.getY());
 		} while (entityArray[x][y] != null);
 
-		if (altair instanceof GoodPlant) {
+		switch (getEntityType(altair.getPos().getX(), altair.getPos().getY())) {
+		case GOODPLANT:
 			GoodPlant gp = new GoodPlant(x, y);
 			entityset.addEntity(gp);
 			entityArray[x][y] = gp;
-		} else if (altair instanceof BadPlant) {
+			break;
+		case BADPLANT:
 			BadPlant bp = new BadPlant(x, y);
 			entityset.addEntity(bp);
 			entityArray[x][y] = bp;
-		} else if (altair instanceof BadBeast) {
-			BadBeast bb = new BadBeast(x, y);
-			entityset.addEntity(bb);
-			entityArray[x][y] = bb;
-		} else if (altair instanceof GoodBeast) {
+			break;
+		case GOODBEAST:
 			GoodBeast gb = new GoodBeast(x, y);
 			entityset.addEntity(gb);
 			entityArray[x][y] = gb;
+			break;
+		case BADBEAST:
+			BadBeast bb = new BadBeast(x, y);
+			entityset.addEntity(bb);
+			entityArray[x][y] = bb;
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -189,7 +223,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		entityset.removeEntity(altair);
 	}
 
-	public XY getSize() {return this.flatBoardSize;}
+	public XY getSize() {
+		return this.flatBoardSize;
+	}
 
 	public EntityType getEntityType(int x, int y) {
 		Entity entity;
@@ -197,7 +233,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 		if (entity == null) {
 			return EntityType.NULL;
-		} else if (entity instanceof HandOperatedMasterSquirrel) {
+		} else if (entity instanceof MasterSquirrel) {
 			return EntityType.MASTERSQUIRREL;
 		} else if (entity instanceof GoodBeast) {
 			return EntityType.GOODBEAST;
@@ -209,6 +245,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			return EntityType.BADPLANT;
 		} else if (entity instanceof Wall) {
 			return EntityType.WALL;
+		} else if (entity instanceof MiniSquirrel) {
+			return EntityType.MINISQUIRREL;
 		}
 
 		return EntityType.NULL;

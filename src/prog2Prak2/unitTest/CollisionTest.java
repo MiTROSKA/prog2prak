@@ -9,7 +9,7 @@ import prog2Prak2.game.MoveCommand;
 
 public class CollisionTest {
 	EntitySet entityset;
-	private final XY size = new XY(50, 50);
+	private final XY size = new XY(100, 100);
 	
 	@BeforeEach
 	public void startPhase() {
@@ -25,7 +25,7 @@ public class CollisionTest {
 		int oldEnergy = handOpMs.getEnergy();
 		XY newPos = handOpMs.getPos().move(XY.UP);
 		
-		new FlattenedBoard(entityset, size).moveOk(handOpMs, newPos);
+		new FlattenedBoard(entityset, size).move(handOpMs, newPos);
 		assertEquals(oldPos, handOpMs.getPos());
 		
 		for(int i = 0; i < 3; i++) { 
@@ -44,7 +44,7 @@ public class CollisionTest {
 		XY newPos = h.getPos().move(XY.DOWN);
 		int shouldEnergy = h.getEnergy() + gp.getEnergy();
 		
-		new FlattenedBoard(entityset, size).moveOk(h, newPos);
+		new FlattenedBoard(entityset, size).move(h, newPos);
 		assertEquals(shouldEnergy, h.getEnergy());
 		universalTester(entityset, h, gp);
 	}
@@ -58,7 +58,7 @@ public class CollisionTest {
 		XY newPos = h.getPos().move(XY.DOWN);
 		int shouldEnergy = h.getEnergy() + bp.getEnergy();
 		
-		new FlattenedBoard(entityset, size).moveOk(h, newPos);
+		new FlattenedBoard(entityset, size).move(h, newPos);
 		assertEquals(shouldEnergy, h.getEnergy());
 		universalTester(entityset, h, bp);
 	}
@@ -71,7 +71,7 @@ public class CollisionTest {
 		XY oldPos = gb.getPos();
 		XY newPos = gb.getPos().move(XY.UP);
 		
-		new FlattenedBoard(entityset, size).moveOk(gb, newPos);
+		new FlattenedBoard(entityset, size).move(gb, newPos);
 		assertEquals(oldPos, gb.getPos());
 	}
 	
@@ -83,7 +83,7 @@ public class CollisionTest {
 		XY oldPos = bb.getPos();
 		XY newPos = bb.getPos().move(XY.UP);
 		
-		new FlattenedBoard(entityset, size).moveOk(bb, newPos);
+		new FlattenedBoard(entityset, size).move(bb, newPos);
 		assertEquals(oldPos, bb.getPos());
 	}
 	
@@ -203,7 +203,7 @@ public class CollisionTest {
     	entityset.addEntity(miniSquirrel);
     	XY newPos = miniSquirrel.getPos().move(XY.UP);
     	
-    	new FlattenedBoard(entityset, size).moveOk(miniSquirrel, newPos);
+    	new FlattenedBoard(entityset, size).move(miniSquirrel, newPos);
     	assertTrue(miniSquirrel.isDead());
     	assertFalse(entityset.isThere(miniSquirrel));
     	assertTrue(entityset.isThere(h));
@@ -218,7 +218,7 @@ public class CollisionTest {
     	entityset.addEntity(miniSquirrel2);
     	XY newPos = miniSquirrel2.getPos().move(XY.UP);
     	
-    	new FlattenedBoard(entityset, size).moveOk(miniSquirrel2, newPos);
+    	new FlattenedBoard(entityset, size).move(miniSquirrel2, newPos);
     	assertFalse(miniSquirrel1.isDead());
     	assertFalse(miniSquirrel2.isDead());
     	assertTrue(entityset.isThere(miniSquirrel2) && entityset.isThere(miniSquirrel2));
@@ -233,7 +233,7 @@ public class CollisionTest {
     	entityset.addEntity(miniSquirrel2);
     	XY newPos1 = miniSquirrel1.getPos().move(XY.DOWN);
     	
-    	new FlattenedBoard(entityset, size).moveOk(miniSquirrel1, newPos1);
+    	new FlattenedBoard(entityset, size).move(miniSquirrel1, newPos1);
     	assertTrue(miniSquirrel1.isDead());
     	assertFalse(miniSquirrel2.isDead());
     	assertFalse(entityset.isThere(miniSquirrel1));
@@ -243,7 +243,7 @@ public class CollisionTest {
     	entityset.addEntity(miniSquirrel1);
     	XY newPos2 = miniSquirrel2.getPos().move(XY.UP);
     	
-    	new FlattenedBoard(entityset, size).moveOk(miniSquirrel2, newPos2);
+    	new FlattenedBoard(entityset, size).move(miniSquirrel2, newPos2);
     	assertFalse(miniSquirrel1.isDead());
     	assertTrue(miniSquirrel2.isDead());
     	assertFalse(entityset.isThere(miniSquirrel2));
