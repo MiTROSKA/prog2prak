@@ -63,8 +63,8 @@ public class MyFavoriteCommandProcessor {
 	public static void main(String[] args) {
 		BufferedReader inputReader = new BufferedReader (new InputStreamReader(System.in));
 		PrintStream outputStream = System.out;
-		MyFavoriteCommandProcessor coProcessor = new MyFavoriteCommandProcessor(MyFavoriteCommandType.values(), 
-			inputReader, outputStream);
+		MyFavoriteCommandType[] commandList = MyFavoriteCommandType.values();
+		MyFavoriteCommandProcessor coProcessor = new MyFavoriteCommandProcessor(commandList, inputReader, outputStream);
 		do {
 			coProcessor.process();
 		} while(true);
