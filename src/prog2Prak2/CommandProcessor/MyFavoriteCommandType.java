@@ -1,4 +1,4 @@
-package prog2Prak2.CommanProcessor;
+package prog2Prak2.CommandProcessor;
 
 public enum MyFavoriteCommandType implements CommandTypeInfo{
 
