@@ -5,11 +5,6 @@ public class Command {
 	private Object[] params;
 	
 	public Command(CommandTypeInfo commandType, Object[] params) {
-		if(commandType.getParamTypes().length != params.length) {
-			throw new ScanException ("Seems to be the wrong number of params...");
-		}
-		
-		
 		this.commandType = commandType;
 		this.params = params;
 	}

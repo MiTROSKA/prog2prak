@@ -3,11 +3,9 @@ package prog2Prak2.CommanProcessor;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.Arrays;
 
 public class MyFavoriteCommandProcessor {
 	private PrintStream outputStream;
-	private BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 	private CommandScanner commandScanner;
 	
 	public MyFavoriteCommandProcessor(CommandTypeInfo[] commandType, BufferedReader inputReader, PrintStream outputStream) {
@@ -22,7 +20,7 @@ public class MyFavoriteCommandProcessor {
 		
 		switch ((MyFavoriteCommandType)commandType) {
 		case HELP:  
-			outputStream.println(Arrays.toString(MyFavoriteCommandType.values())); //?
+			help();
 			break;
 		case ADDI: 
 			int sumInt = 0;
@@ -57,17 +55,18 @@ public class MyFavoriteCommandProcessor {
 	}
 	
 	private void help() {
-		
+		MyFavoriteCommandType helpList = MyFavoriteCommandType.HELP;
+		outputStream.println(helpList);
 	}
 
 
 	public static void main(String[] args) {
-	MyFavoriteCommandProcessor commandProcessor = new MyFavoriteCommandProcessor(MyFavoriteCommandType.values(), 
-			new BufferedReader (new InputStreamReader(System.in)),
-            System.out);
-		while(true) {
-		
-			commandProcessor.process(); 
-		}
+		BufferedReader inputReader = new BufferedReader (new InputStreamReader(System.in));
+		PrintStream outputStream = System.out;
+		MyFavoriteCommandProcessor coProcessor = new MyFavoriteCommandProcessor(MyFavoriteCommandType.values(), 
+			inputReader, outputStream);
+		do {
+			coProcessor.process();
+		} while(true);
 	}
 }

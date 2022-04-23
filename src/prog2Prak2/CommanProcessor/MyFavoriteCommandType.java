@@ -32,5 +32,14 @@ private Class<?> []params;
 	public Class<?>[] getParamTypes() {
 		return params;
 	}
+	
+	public String toString() {
+	String allNames = "Available Commands: \n";
+		MyFavoriteCommandType [] commands =	MyFavoriteCommandType.values();
+		for(int i = 0; i < commands.length; i++) {
+			allNames = allNames +  "\""+commands[i].getName() +"\""+ " " +commands[i].getHelpText() + "\n";
+	}
+		return allNames;
+	}
 
 }
