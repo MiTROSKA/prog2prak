@@ -36,9 +36,13 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 		return "HandOpSquirrel nr: " + id + " Position: " + position.getX() + " " + position.getY();
 	}
 
-	public MiniSquirrel spawnMinisquirrel(int energy) {
+	public MiniSquirrel spawnMinisquirrel(int energy) throws NotEnoughEnergyException  {
+		if(this.energy - energy <=0) {
+			throw new NotEnoughEnergyException("Not enough energy! You only have " + this.energy + " energy!");
+		}
+		
 		updateEnergy(-energy);
-		return new MiniSquirrel(position.getX(), position.getY(), energy, this.id);
+		return new MiniSquirrel(position.getX()+1, position.getY(), energy, this.id);
 	}
 
 }

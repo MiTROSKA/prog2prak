@@ -7,8 +7,12 @@ import prog2Prak2.entities.EntitySet;
 import prog2Prak2.entities.GoodBeast;
 import prog2Prak2.entities.GoodPlant;
 import prog2Prak2.entities.HandOperatedMasterSquirrel;
+import prog2Prak2.entities.MasterSquirrel;
+import prog2Prak2.entities.NotEnoughEnergyException;
 import prog2Prak2.entities.Wall;
 import prog2Prak2.entities.XY;
+
+
 import java.util.Random;
 //import prog2Prak2.game.EntityContext;
 
@@ -69,5 +73,13 @@ public class Board {
 	public void update() {
 		Entity.setEntityContext(flatten());
 		entityset.nextStepCaller();
+	}
+	
+	public String getEntitiesOnField() {
+		return entityset.toString();
+	}
+	
+	public void spawnMiniSquirrel(MasterSquirrel ms, int energy) throws NotEnoughEnergyException {
+		entityset.addEntity(ms.spawnMinisquirrel(energy));
 	}
 }

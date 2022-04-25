@@ -11,6 +11,7 @@ public class MyFavoriteCommandProcessor {
 	public MyFavoriteCommandProcessor(CommandTypeInfo[] commandType, BufferedReader inputReader, PrintStream outputStream) {
 		commandScanner = new CommandScanner(commandType, inputReader);
 		this.outputStream = outputStream;
+		
 	}
 	
 	public void process() {

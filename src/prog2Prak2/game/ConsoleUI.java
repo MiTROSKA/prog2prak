@@ -1,31 +1,30 @@
 package prog2Prak2.game;
 
-import java.util.Scanner;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import prog2Prak2.SquirrelCommandReader.Command;
+import prog2Prak2.SquirrelCommandReader.CommandScanner;
+import prog2Prak2.SquirrelCommandReader.GameCommandType;
 import prog2Prak2.entities.XY;
 
 public class ConsoleUI implements UI{
-	private static Scanner scanner = new Scanner(System.in);
+	CommandScanner commandScanner;
+	GameCommandType[] commandTypes;
 	
-	public MoveCommand getCommand() {
-		String input = scanner.nextLine();
+	
+	public ConsoleUI() {
+		commandTypes = GameCommandType.values();
+		this.commandScanner = new CommandScanner(commandTypes, new BufferedReader(new InputStreamReader(System.in)));
+	}
+	
+	public Command getCommand() {
+		 try {
+			 return commandScanner.next();
+		 } catch(Exception e) {
+			 System.out.println("Wrong Command...");
+			 return new Command(GameCommandType.HELP, new Object[0]);
+		 }	
 		
-		switch(input) {
-		case "w":
-		case "W":
-			return new MoveCommand(XY.UP);
-		case "a":
-		case "A":
-			return new MoveCommand(XY.LEFT);
-		case "s":
-		case "S":
-			return new MoveCommand(XY.DOWN);
-		case "d":
-		case "D":
-			return new MoveCommand(XY.RIGHT);
-			
-		default: return new MoveCommand(new XY(0, 0));
-		}
 	}
 	
 	public void render(BoardView view) {

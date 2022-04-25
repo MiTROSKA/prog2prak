@@ -1,6 +1,8 @@
 package prog2Prak2.game;
 
+import prog2Prak2.SquirrelCommandReader.Command;
+
 public interface UI {
-	public MoveCommand getCommand();
+	public Command getCommand();
 	public void render(BoardView view);
 }

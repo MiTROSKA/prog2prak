@@ -17,10 +17,9 @@ public abstract class Game {
 		}
 	}
 	
-	public abstract void processInput();
-	public abstract void render();
+	protected abstract void processInput();
+	protected abstract void render();
+	protected abstract void update();
+		
 	
-	protected void update() {
-		state.update();
-	}
 }
