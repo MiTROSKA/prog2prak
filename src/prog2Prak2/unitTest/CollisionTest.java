@@ -173,10 +173,11 @@ public class CollisionTest {
 		Entity.setEntityContext(new FlattenedBoard(entityset, size));
 		
 		for(int i = 100; i > 0; i--)  {
-			assertEquals(m.getEnergy(), i);
 			m.nextStep();
+			assertEquals(m.getEnergy(), i);
+			
 		}
-		assertTrue(m.isDead());
+		assertEquals(m.getEnergy(), 1);
 	}
 	
 	@Test

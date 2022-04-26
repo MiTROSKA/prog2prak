@@ -21,7 +21,7 @@ public class ConsoleUI implements UI{
 		 try {
 			 return commandScanner.next();
 		 } catch(Exception e) {
-			 System.out.println("Wrong Command...");
+			 System.out.println(e.getMessage());
 			 return new Command(GameCommandType.HELP, new Object[0]);
 		 }	
 		

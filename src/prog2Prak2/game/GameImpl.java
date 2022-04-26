@@ -29,14 +29,18 @@ public class GameImpl extends Game {
 
 	protected void update() {
 		lose1Turn = false;
+		processCommand();
+		if (!lose1Turn) {
+			state.update();
+		}
+	}
+
+	protected void processCommand() {
 		try {
 			command.getCommandType().getMethod().invoke(this, command.getParams());
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		if (!lose1Turn) {
-			state.update();
 		}
 	}
 
@@ -75,19 +79,19 @@ public class GameImpl extends Game {
 
 	@SuppressWarnings("unused")
 	private void all() {
-		System.out.println(state.getEntitiesOnField());
+		System.out.println("Entities currently on the field: \n" + state.getEntitiesOnField());
 		lose1Turn = true;
 	}
 
 	@SuppressWarnings("unused")
 	private void master_energy() {
-		System.out.println(handOpMs.getEnergy());
+		System.out.println("Energy of MasterSquirrel: " + handOpMs.getEnergy());
 		lose1Turn = true;
 	}
 
 	@SuppressWarnings("unused")
-	private void spawn_mini(int energy) throws NotEnoughEnergyException{
+	private void spawn_mini(int energy) throws NotEnoughEnergyException {
 		state.spawnMiniSquirrel(handOpMs, energy);
-		handOpMs.setMoveCommand(new MoveCommand(new XY(0,0)));
+		handOpMs.setMoveCommand(new MoveCommand(new XY(0, 0)));
 	}
 }

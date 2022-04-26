@@ -44,16 +44,16 @@ public class Board {
 		for(int x = 1; x < boardSize.getX() -1; x++) {
 			for(int y = 2; y < boardSize.getY()-1; y++) {
 				int i = random.nextInt(100);
-				if(i < 70 || i >92) {
+				if(i < 72 || i >84) {
 					continue;
 				}
-				else if(i < 77) {
+				else if(i < 75) {
 					entityset.addEntity(new GoodBeast(x,y));
 				}
-				else if(i < 83) {
+				else if(i < 78) {
 					entityset.addEntity(new BadBeast(x,y));
 				}
-				else if(i < 87) {
+				else if(i < 81) {
 					entityset.addEntity(new GoodPlant(x,y));
 				}
 				else {
@@ -81,5 +81,9 @@ public class Board {
 	
 	public void spawnMiniSquirrel(MasterSquirrel ms, int energy) throws NotEnoughEnergyException {
 		entityset.addEntity(ms.spawnMinisquirrel(energy));
+	}
+	
+	public XY getBoardSize() {
+		return this.boardSize;
 	}
 }

@@ -12,7 +12,7 @@ UP("up", " * move MasterSquirrel up", "goUp"),
 DOWN("down", " * move MasterSquirrel down", "goDown"),
 RIGHT("right", " * move MasterSquirrel to the right", "goRight"),
 MASTER_ENERGY("master_energy", " * display energy of MasterSquirrel", "master_energy"),
-SPAWN_MINI("spawn_mini", " * <energy> spawn a MiniSquirrel", "spawn_mini", Integer.class);
+SPAWN_MINI("spawn_mini", " * <energy> spawn a MiniSquirrel", "spawn_mini", int.class);
 	
 	private String name;
 	private String helpText;

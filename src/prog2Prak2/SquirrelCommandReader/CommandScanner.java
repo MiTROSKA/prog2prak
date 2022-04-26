@@ -55,9 +55,9 @@ public class CommandScanner {
 
 	private Object translateParams(String part) { 
 		if (isInt(part)) {
-			Integer.parseInt(part);
+			return Integer.parseInt(part);
 		} else if (isFloat(part)) {
-			Float.parseFloat(part);
+			return Float.parseFloat(part);
 		}
 
 		return part;
