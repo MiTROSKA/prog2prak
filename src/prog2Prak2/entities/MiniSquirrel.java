@@ -9,7 +9,7 @@ public class MiniSquirrel extends Squirrel {
 		this.id = idCounter++;
 		this.parentToken = Token;
 		dead = false;
-		this.stunCounter = 1;
+		
 	}
 
 	public void nextStep() {
