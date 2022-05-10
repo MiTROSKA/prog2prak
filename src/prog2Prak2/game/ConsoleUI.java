@@ -10,11 +10,13 @@ import prog2Prak2.entities.XY;
 public class ConsoleUI implements UI{
 	CommandScanner commandScanner;
 	GameCommandType[] commandTypes;
+
 	
 	
 	public ConsoleUI() {
 		commandTypes = GameCommandType.values();
 		this.commandScanner = new CommandScanner(commandTypes, new BufferedReader(new InputStreamReader(System.in)));
+		
 	}
 	
 	public Command getCommand() {
@@ -26,6 +28,8 @@ public class ConsoleUI implements UI{
 		 }	
 		
 	}
+	
+
 	
 	public void render(BoardView view) {
 		XY size = view.getSize();
@@ -54,5 +58,11 @@ public class ConsoleUI implements UI{
 			System.out.println();
 		}
 		System.out.println("\n" + "\n");
+	}
+
+	@Override
+	public void specifyStatusBar(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 }

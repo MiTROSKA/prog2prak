@@ -29,7 +29,7 @@ public class State {
 		return board.getMasterSquirrel();
 	}
 	
-	public void spawnMiniSquirrel(MasterSquirrel ms, int energy) throws NotEnoughEnergyException {
+	public void spawnMiniSquirrel(MasterSquirrel ms, int energy) throws Exception, NotEnoughEnergyException {
 		board.spawnMiniSquirrel(ms, energy);
 	}
 }

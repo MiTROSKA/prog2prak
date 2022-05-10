@@ -5,6 +5,7 @@ import java.util.Enumeration;
 //import java.util.List;
 import java.util.Random;
 
+
 //import prog2Prak2.game.EntityContext;
 
 public class EntitySet {
@@ -107,7 +108,7 @@ public class EntitySet {
 
 	public void nextStepCaller() { // EntityContext entityContext
 		// Entity.setEntityContext(entityContext);
-		for (Enumeration<Entity> e = this.enumerateRandom(); e.hasMoreElements();) {
+		for (Enumeration<Entity> e = this.enumerateForward(); e.hasMoreElements();) {
 			e.nextElement().nextStep();
 		}
 	}
@@ -122,6 +123,21 @@ public class EntitySet {
 			s = s + i.getEntity().toString() + "\n";
 		}
 		return s;
+	}
+	
+	
+	public String[] getSquirrelAndEnergy() {
+		String [] sqArr = new String[listLength];
+		Data i;
+		int j = 0;
+		
+		for (i = head; i != null; i = i.getNext()) {
+			Squirrel s = (Squirrel) i.getEntity();
+			sqArr[j] = s.getNameAndEnergy();
+			j++;
+			
+		}
+		return sqArr;
 	}
 
 	public boolean isThere(Entity entity) {
@@ -196,8 +212,8 @@ public class EntitySet {
 
 		return new EnumerateBack();
 	}
-
-	private class EnumerateRandom implements Enumeration<Entity> {
+	
+	/*private class EnumerateRandom implements Enumeration<Entity> {
 		//private Integer[] used = new Integer[listLength];
 		//private int index = 0;
 		private final Random random = new Random();
@@ -233,16 +249,47 @@ public class EntitySet {
 			return getEntityAt(index);
 		} 
 		
-	/*	public Entity nextElement() {
-			int i;
-			List<Integer> arr = Arrays.asList(used);
-			do {
-				i = random.nextInt(listLength);
-			} while (arr.contains(i));
-			used[index++] = i;
-			return getEntityAt(i);
-		} */
-	}
+
+	} */
+	
+	private class EnumerateRandom implements Enumeration<Entity> {
+		private final Random random = new Random();
+		private int l = listLength;
+		Entity[] entityArr = new Entity[l];
+		private int i = 0;
+		
+		public EnumerateRandom() {
+			for (Data j = head; j!=null; j= j.getNext()) {
+				entityArr[i] = j.getEntity();
+				i++;
+			}
+		}
+
+		public void setSeed(long seed) {
+			random.setSeed(seed);
+		}
+
+		@Override
+		public boolean hasMoreElements() {
+			return  l > 0; //index < listLength; 
+		}
+
+		@Override
+		public Entity nextElement() {
+			Entity index;
+			index = entityArr[random.nextInt(l)];
+
+			for (int j = 0; j < l; j++) { 
+				if (index == entityArr[j]) {
+					entityArr[j] = entityArr[l - 1];
+					l--;
+				} 
+			}
+			return index;
+		} 
+		
+
+	} 
 
 	public Enumeration<Entity> enumerateRandom() {
 		return new EnumerateRandom();

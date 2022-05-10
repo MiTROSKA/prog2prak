@@ -5,5 +5,6 @@ import prog2Prak2.entities.XY;
 public interface BoardView {
 	public EntityType getEntityType(int x, int y);
 	public XY getSize();
+	public String[] getSquirrelAndEnergy();
 	
 }

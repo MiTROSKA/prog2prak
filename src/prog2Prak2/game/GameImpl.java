@@ -13,9 +13,10 @@ public class GameImpl extends Game {
 	private final HandOperatedMasterSquirrel handOpMs;
 	private Command command;
 	private boolean lose1Turn;
+	private boolean pause;
 
-	public GameImpl(State state, UI userInterface) {
-		super(state, userInterface);
+	public GameImpl(State state, UI userInterface, int timer) {
+		super(state, userInterface, timer);
 		handOpMs = state.getMasterSquirrel();
 	}
 
@@ -30,17 +31,21 @@ public class GameImpl extends Game {
 	protected void update() {
 		lose1Turn = false;
 		processCommand();
-		if (!lose1Turn) {
+		if (!lose1Turn && !pause) {
 			state.update();
 		}
 	}
 
 	protected void processCommand() {
-		try {
-			command.getCommandType().getMethod().invoke(this, command.getParams());
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (command == null) {
+			handOpMs.setMoveCommand(new MoveCommand(new XY(0, 0)));
+		} else {
+			try {
+				command.getCommandType().getMethod().invoke(this, command.getParams());
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -67,7 +72,7 @@ public class GameImpl extends Game {
 	@SuppressWarnings("unused")
 	private void help() {
 		GameCommandType helpList = GameCommandType.HELP;
-		System.out.println(helpList);
+		userInterface.specifyStatusBar(helpList.toString());
 		lose1Turn = true;
 	}
 
@@ -79,7 +84,8 @@ public class GameImpl extends Game {
 
 	@SuppressWarnings("unused")
 	private void all() {
-		System.out.println("Entities currently on the field: \n" + state.getEntitiesOnField());
+		userInterface.specifyStatusBar(state.getEntitiesOnField());
+		//System.out.println("Entities currently on the field: \n" + state.getEntitiesOnField());
 		lose1Turn = true;
 	}
 
@@ -90,8 +96,25 @@ public class GameImpl extends Game {
 	}
 
 	@SuppressWarnings("unused")
-	private void spawn_mini(int energy) throws NotEnoughEnergyException {
+	private void spawn_mini(int energy) throws Exception, NotEnoughEnergyException {
 		state.spawnMiniSquirrel(handOpMs, energy);
 		handOpMs.setMoveCommand(new MoveCommand(new XY(0, 0)));
+	}
+	
+	@SuppressWarnings("unused")
+	private void pauseGame() {
+		userInterface.specifyStatusBar("Game Paused");
+		pause = true;
+	}
+	
+	@SuppressWarnings("unused")
+	private void resumeGame() {
+		userInterface.specifyStatusBar("Game currently playing...");
+		pause = false;
+	}
+	
+	@SuppressWarnings("unused")
+	private void immortal() {
+		handOpMs.updateEnergy(100000000);
 	}
 }

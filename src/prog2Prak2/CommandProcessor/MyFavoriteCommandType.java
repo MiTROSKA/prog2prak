@@ -38,7 +38,7 @@ private Class<?> []params;
 		MyFavoriteCommandType [] commands =	MyFavoriteCommandType.values();
 		for(int i = 0; i < commands.length; i++) {
 			allNames = allNames +  "\""+commands[i].getName() +"\""+ " " +commands[i].getHelpText() + "\n";
-	}
+		}
 		return allNames;
 	}
 

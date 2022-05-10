@@ -53,7 +53,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public void move(Entity entity, XY wouldPos) {
-		//Darf nicht auﬂerhalb des Spielfeldes sein
+		// Darf nicht auﬂerhalb des Spielfeldes sein
 		boolean isNotOutOfBounds = true;
 		boolean isHindranceNotNull = true;
 		int x, y;
@@ -93,19 +93,34 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	private void squirrelMoveRuling(Squirrel squirrel, Entity hindrance) {
 
+		boolean gehWeiter = true;
 		// Squirrel auf alles was nicht Squirrel ist
 		switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
 		case WALL:
 			squirrel.updateEnergy(hindrance.getEnergy());
 			squirrel.stunned();
+			gehWeiter = false;
 			break;
 		case GOODBEAST:
+			squirrel.updateEnergy(hindrance.getEnergy());
+			hindrance.die();
+			reCreate(hindrance);
+			updatePos(squirrel, hindrance.getPos());
+			gehWeiter = false;
+			break;
 		case BADPLANT:
+			squirrel.updateEnergy(hindrance.getEnergy());
+			hindrance.die();
+			reCreate(hindrance);
+			updatePos(squirrel, hindrance.getPos());
+			gehWeiter = false;
+			break;
 		case GOODPLANT:
 			squirrel.updateEnergy(hindrance.getEnergy());
 			hindrance.die();
 			reCreate(hindrance);
 			updatePos(squirrel, hindrance.getPos());
+			gehWeiter = false;
 			break;
 		case BADBEAST:
 			squirrel.updateEnergy(hindrance.getEnergy());
@@ -114,50 +129,53 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				reCreate(hindrance);
 				updatePos(squirrel, hindrance.getPos());
 			}
+			gehWeiter = false;
 			break;
 		default:
 			break;
 		}
-		// Squirrel ist Mini
-		if (squirrel instanceof MiniSquirrel) {
-			switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
-			case MASTERSQUIRREL:
-				if (((MiniSquirrel) squirrel).getParentToken() == hindrance.getId()) {
-					hindrance.updateEnergy(squirrel.getEnergy());
-					squirrel.die();
-				} else {
-					squirrel.die();
-				}
-				break;
-			case MINISQUIRREL:
-				if (((MiniSquirrel) squirrel).getParentToken() != ((MiniSquirrel) hindrance).getParentToken()) {
-					squirrel.die();
-				}
-				break;
-			default:
-				break;
-			}
-		}
-		// Squirrel ist Master
-		if (squirrel instanceof MasterSquirrel) {
-			switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
-			case MASTERSQUIRREL:
-				break;
-			case MINISQUIRREL:
-				if (squirrel.getId() == ((MiniSquirrel) hindrance).getParentToken()) {
-					squirrel.updateEnergy(hindrance.getEnergy());
-					hindrance.die();
-					updatePos(squirrel, hindrance.getPos());
-				} else {
-					hindrance.die();
-					updatePos(squirrel, hindrance.getPos());
-				}
-				break;
-			default:
-				break;
-			}
-		}
 
+		if (gehWeiter) {
+			// Squirrel ist Mini
+			if (squirrel instanceof MiniSquirrel) {
+				switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
+				case MASTERSQUIRREL:
+					if (((MiniSquirrel) squirrel).getParentToken() == hindrance.getId()) {
+						hindrance.updateEnergy(squirrel.getEnergy());
+						squirrel.die();
+					} else {
+						squirrel.die();
+					}
+					break;
+				case MINISQUIRREL:
+					if (((MiniSquirrel) squirrel).getParentToken() != ((MiniSquirrel) hindrance).getParentToken()) {
+						squirrel.die();
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			// Squirrel ist Master
+			if (squirrel instanceof MasterSquirrel) {
+				switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
+				case MASTERSQUIRREL:
+					break;
+				case MINISQUIRREL:
+					if (squirrel.getId() == ((MiniSquirrel) hindrance).getParentToken()) {
+						squirrel.updateEnergy(hindrance.getEnergy());
+						((MiniSquirrel)hindrance).die();
+						updatePos(squirrel, hindrance.getPos());
+					} else {
+						((MiniSquirrel)hindrance).die();
+						updatePos(squirrel, hindrance.getPos());
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
 	}
 
 	private void updatePos(Entity entity, XY newPos) {
@@ -227,12 +245,19 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return this.flatBoardSize;
 	}
 
+	public String[] getSquirrelAndEnergy() {
+		return squirrelList.getSquirrelAndEnergy();
+	}
+	
+	
 	public EntityType getEntityType(int x, int y) {
 		Entity entity;
 		entity = entityArray[x][y];
 
 		if (entity == null) {
 			return EntityType.NULL;
+		} else if (entity instanceof HandOperatedMasterSquirrel) {
+			return EntityType.HANDOPERATEDMASTERSQUIRREL;
 		} else if (entity instanceof MasterSquirrel) {
 			return EntityType.MASTERSQUIRREL;
 		} else if (entity instanceof GoodBeast) {

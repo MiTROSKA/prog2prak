@@ -7,14 +7,22 @@ public class CommandScanner {
 
 	private BufferedReader inputReader;
 	private CommandTypeInfo[] commandTypes;
+	
 
 	public CommandScanner(CommandTypeInfo[] commandTypes, BufferedReader inputReader) {
 		this.inputReader = inputReader;
 		this.commandTypes = commandTypes;
+		
 	}
 
 	public Command next() {
 		try {
+
+				if (!inputReader.ready()) {
+					return null;
+				}
+			
+
 			String eingabe = inputReader.readLine();
 			String[] parts = eingabe.split(" ");
 			CommandTypeInfo command = translateCommand(parts[0]);
@@ -28,15 +36,14 @@ public class CommandScanner {
 					params[i] = translateParams(parts[i + 1]);
 				}
 
-			} 
-			if(command.getParamTypes().length != params.length) {
+			}
+			if (command.getParamTypes().length != params.length) {
 				throw new ScanException("Wrong Parameters...");
 			}
-			
+
 			return new Command(command, params);
-			
-		} 
-		catch (IOException e) {
+
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -53,7 +60,7 @@ public class CommandScanner {
 		return null;
 	}
 
-	private Object translateParams(String part) { 
+	private Object translateParams(String part) {
 		if (isInt(part)) {
 			return Integer.parseInt(part);
 		} else if (isFloat(part)) {

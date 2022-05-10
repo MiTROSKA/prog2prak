@@ -1,8 +1,10 @@
 package prog2Prak2.entities;
 
+import prog2Prak2.game.FlattenedBoard;
+
 public abstract class MasterSquirrel extends Squirrel{
 
-	public abstract MiniSquirrel spawnMinisquirrel(int energy) throws NotEnoughEnergyException;
+	public abstract MiniSquirrel spawnMinisquirrel(int energy, FlattenedBoard flatIsJustice) throws Exception, NotEnoughEnergyException;
 	
 }
 

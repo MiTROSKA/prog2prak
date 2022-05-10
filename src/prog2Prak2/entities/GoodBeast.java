@@ -17,4 +17,6 @@ public class GoodBeast extends Beasts{
 	public XY beastMove(XY diffVector) {
 		return diffVector.abnormalize().negate();
 	}
+
+	
 }

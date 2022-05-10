@@ -32,4 +32,9 @@ public class MiniSquirrel extends Squirrel {
 	public String toString() {
 		return "MiniSquirrel nr: " + id + " Position: " + position.getX() + " " + position.getY();
 	}
+
+	@Override
+	public String getNameAndEnergy() {
+		return "MiniSquirrel: " + this.getEnergy();
+	}
 }

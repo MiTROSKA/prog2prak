@@ -1,8 +1,10 @@
 package prog2Prak2.entities;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
 import prog2Prak2.game.EntityContext;
 
-public class mainSpiel {
+public class mainSpiel extends Application{
 
 	public static void main(String[] args) {
 		// Erstellung der Figuren
@@ -63,6 +65,12 @@ public class mainSpiel {
 		 * System.out.println("List Length: " + entityset.getListLength());
 		 * System.out.println(entityset);
 		 */
+	}
+
+	@Override
+	public void start(Stage arg0) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
