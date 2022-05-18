@@ -3,8 +3,9 @@ package prog2Prak2.entities;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import prog2Prak2.game.EntityContext;
+import prog2Prak2.game.EntityType;
 
-public class mainSpiel extends Application{
+public class mainSpiel{
 
 	public static void main(String[] args) {
 		// Erstellung der Figuren
@@ -34,10 +35,10 @@ public class mainSpiel extends Application{
 		//entityset.removeEntity(s);
 	//	Entity mini = s.spawnMinisquirrel(100);
 
-		if(s instanceof Squirrel) {
-			System.out.println("fokfkok");
+		if(gb instanceof Beasts) {
+			System.out.println("it is instance");
 		}else {
-			System.out.println("yessir");
+			System.out.println("not instance");
 		}
 
 	//	System.out.println(entityset);
@@ -67,12 +68,8 @@ public class mainSpiel extends Application{
 		 */
 	}
 
-	@Override
-	public void start(Stage arg0) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 }
+
 
 class EntityContextDummy implements EntityContext{
 
@@ -90,6 +87,12 @@ class EntityContextDummy implements EntityContext{
 
 	@Override
 	public Squirrel getNearestSquirrel(XY startPos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EntityType getEntityType(int x, int y) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -80,7 +80,7 @@ public class Board {
 	}
 	
 	public void spawnMiniSquirrel(MasterSquirrel ms, int energy) throws Exception, NotEnoughEnergyException {
-		entityset.addEntity(ms.spawnMinisquirrel(energy, flatten()));
+		entityset.addEntity(ms.spawnMinisquirrel(energy, XY.RIGHT, flatten()));
 	}
 	
 	public XY getBoardSize() {

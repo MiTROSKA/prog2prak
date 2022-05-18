@@ -13,6 +13,8 @@ public abstract class Entity {
 	public abstract void updatePosition(XY newPos);
 	public abstract void nextStep();
 	public abstract String toString();
+	
+	public void updateEnergy(double deltaWert) { energy += deltaWert;}
 
 	public XY getPos() { return this.position; }
 

@@ -15,7 +15,7 @@ MASTER_ENERGY("master_energy", " * display energy of MasterSquirrel", "master_en
 SPAWN_MINI("spawn_mini", " * <energy> spawn a MiniSquirrel", "spawn_mini", int.class),
 PAUSE("pause", "pause the game", "pauseGame"),
 RESUME("resume", "resume the game","resumeGame"),
-IMMORTAL("immortal", "become fujimi", "immortal");
+IMMORTAL("immortal", "immortal, invincible", "immortal");
 	
 	
 	private String name;

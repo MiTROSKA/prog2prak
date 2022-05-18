@@ -67,6 +67,39 @@ public class XY {
 		return new XY(x,y); 
 	}
 	
+	public XY vectorDiffCalc(XY pos1) {
+		int a,b,c,d,x,y;
+		a = pos1.getX();
+		b = pos1.getY();
+		c = this.getX();
+		d = this.getY();
+		
+		x = c - a;
+		y = d - b;
+		
+		if(x < 0) {
+			x = 0;
+		}
+		if(y < 0) {
+			y = 0;
+		}
+		
+		return new XY(x,y); 
+	}
+	
+	public XY vectorAdder(XY pos1) {
+		int a,b,c,d,x,y;
+		a = pos1.getX();
+		b = pos1.getY();
+		c = this.getX();
+		d = this.getY();
+		
+		x = c + a;
+		y = d + b;
+		
+		return new XY(x,y); 
+	}
+	
 	public XY abnormalize() {
 		int a,b;
 		

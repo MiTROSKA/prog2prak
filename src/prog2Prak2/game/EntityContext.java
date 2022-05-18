@@ -8,5 +8,6 @@ public interface EntityContext {
 	public XY getSize();
 	public void move(Entity entity, XY moveDirection);
 	public Squirrel getNearestSquirrel(XY startPos);
+	public EntityType getEntityType(int x, int y);
 	
 }

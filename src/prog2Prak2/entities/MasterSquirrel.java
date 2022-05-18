@@ -4,7 +4,7 @@ import prog2Prak2.game.FlattenedBoard;
 
 public abstract class MasterSquirrel extends Squirrel{
 
-	public abstract MiniSquirrel spawnMinisquirrel(int energy, FlattenedBoard flatIsJustice) throws Exception, NotEnoughEnergyException;
+	public abstract MiniSquirrel spawnMinisquirrel(int energy, XY direction, FlattenedBoard flatIsJustice) throws Exception, NotEnoughEnergyException;
 	
 }
 

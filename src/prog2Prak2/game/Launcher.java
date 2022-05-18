@@ -21,7 +21,6 @@ public class Launcher extends Application {
 
 	public void startGame() {
 		Timer gameLoopTimer = new Timer("GameLoopTimer");
-		// boolean toggleFrameRate = true;
 		int timer = 500;
 		// UI userInterface = new ConsoleUI();
 		HandOperatedMasterSquirrel handOpMs = new HandOperatedMasterSquirrel(1, 1);

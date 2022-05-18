@@ -18,6 +18,7 @@ import prog2Prak2.entities.XY;
 import prog2Prak2.entities.duplicateEntityException;
 import prog2Prak2.entities.missingEntityException;
 import prog2Prak2.game.EntityContext;
+import prog2Prak2.game.EntityType;
 
 public class EntitySetTest {
 	EntitySet entityset;
@@ -113,6 +114,12 @@ public class EntitySetTest {
 
 		@Override
 		public Squirrel getNearestSquirrel(XY startPos) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public EntityType getEntityType(int x, int y) {
 			// TODO Auto-generated method stub
 			return null;
 		}

@@ -77,8 +77,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			if (isHindranceNotNull) {
 				if (entity instanceof Squirrel squirrel) {
 					squirrelMoveRuling(squirrel, hindrance);
-				} else if (hindrance instanceof Squirrel squirrel) {
-					squirrelMoveRuling(squirrel, entity);
+				} else if (entity instanceof BadBeast badBeast) {
+					beastMoveRuling(badBeast, hindrance);
 				}
 				if (hindrance.isDead()) {
 					reMove(hindrance);
@@ -89,6 +89,44 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				}
 			}
 		}
+	}
+
+	private void beastMoveRuling(BadBeast beast, Entity hindrance) {
+
+		switch (getEntityType(hindrance.getPos().getX(), hindrance.getPos().getY())) {
+		case HANDOPERATEDMASTERSQUIRREL:
+			hindrance.updateEnergy(beast.getEnergy());
+			beast.payLifePoint();
+			if (beast.isDead()) {
+				reCreate(beast);
+			}
+			if (hindrance.isDead()) {
+				beast.updatePosition(hindrance.getPos());
+			}
+			break;
+		case MASTERSQUIRREL:
+			hindrance.updateEnergy(beast.getEnergy());
+			beast.payLifePoint();
+			if (beast.isDead()) {
+				reCreate(beast);
+			}
+			if (hindrance.isDead()) {
+				beast.updatePosition(hindrance.getPos());
+			}
+			break;
+		case MINISQUIRREL:
+			hindrance.updateEnergy(beast.getEnergy());
+			beast.payLifePoint();
+			if (beast.isDead()) {
+				reCreate(beast);
+			}
+			if (hindrance.isDead()) {
+				beast.updatePosition(hindrance.getPos());
+			}
+		default:
+			break;
+		}
+
 	}
 
 	private void squirrelMoveRuling(Squirrel squirrel, Entity hindrance) {
@@ -164,10 +202,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				case MINISQUIRREL:
 					if (squirrel.getId() == ((MiniSquirrel) hindrance).getParentToken()) {
 						squirrel.updateEnergy(hindrance.getEnergy());
-						((MiniSquirrel)hindrance).die();
+						((MiniSquirrel) hindrance).die();
 						updatePos(squirrel, hindrance.getPos());
 					} else {
-						((MiniSquirrel)hindrance).die();
+						((MiniSquirrel) hindrance).die();
 						updatePos(squirrel, hindrance.getPos());
 					}
 					break;
@@ -248,8 +286,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	public String[] getSquirrelAndEnergy() {
 		return squirrelList.getSquirrelAndEnergy();
 	}
-	
-	
+
 	public EntityType getEntityType(int x, int y) {
 		Entity entity;
 		entity = entityArray[x][y];
@@ -276,4 +313,140 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 		return EntityType.NULL;
 	}
+
+	public Entity[] getAffectedEntities(XY startPos, int impactRadius) {
+		Entity[] draggedDownIntoTheGrave;
+		Entity entity;
+
+		XY radiusVector = new XY(impactRadius, impactRadius);
+		XY leftCorner = startPos.vectorDiffCalc(radiusVector);
+
+		int startPointY = leftCorner.getY();
+		int startPointX = leftCorner.getX();
+
+		XY rightCorner = startPos.vectorAdder(radiusVector);
+		int endPointY = rightCorner.getY();
+		int endPointX = rightCorner.getX();
+
+		int entityCounter = 0;
+
+		if (endPointY > flatBoardSize.getY()) {
+			endPointY = flatBoardSize.getY();
+		}
+
+		if (endPointX > flatBoardSize.getX()) {
+			endPointX = flatBoardSize.getX();
+		}
+
+		for (int y = startPointY; y <= endPointY; y++) {
+			for (int x = startPointX; x <= endPointX; x++) {
+				if (getEntityType(x, y) != null) {
+					entityCounter++;
+				}
+			}
+		}
+
+		draggedDownIntoTheGrave = new Entity[entityCounter];
+
+		int arrCounter = 0;
+		for (int y = startPointY; y <= endPointY; y++) {
+			for (int x = startPointX; x <= endPointX; x++) {
+				if (getEntityType(x, y) != null) {
+					entity = entityArray[x][y];
+					draggedDownIntoTheGrave[arrCounter] = entity;
+					arrCounter++;
+				}
+			}
+		}
+
+		return draggedDownIntoTheGrave;
+	}
+
+	public void implode(MiniSquirrelBot msb) {
+		Entity[] affectedEntities = getAffectedEntities(msb.getPos(), msb.getImpactRadius());
+		Entity entity;
+		double impactArea = msb.getImpactRadius() * msb.getImpactRadius() * Math.PI;
+		double energyLoss;
+		MasterSquirrel father = entityset.lookingForAFather(msb);
+		double collectedEnergy = 0;
+
+		for (int i = 0; i < affectedEntities.length; i++) {
+			entity = affectedEntities[i];
+			XY distanceVector = msb.getPos().fakeDiffCalc(entity.getPos());
+			int distance;
+			if (distanceVector.getX() < distanceVector.getY()) {
+				distance = distanceVector.getY();
+			} else {
+				distance = distanceVector.getX();
+
+			}
+			energyLoss = 200 * (entity.getEnergy() / impactArea) * (1 - distance / msb.getImpactRadius());
+
+			switch (getEntityType(entity.getPos().getX(), entity.getPos().getY())) {
+			case MASTERSQUIRREL:
+				if (entity.getId() != father.getId()) {
+					if (entity.getEnergy() - energyLoss <= 0) {
+						collectedEnergy += entity.getEnergy();
+						entity.updateEnergy(-entity.getEnergy());
+						entity.die();
+					} else {
+						entity.updateEnergy(-energyLoss);
+						collectedEnergy += energyLoss;
+					}
+				}
+				break;
+			case MINISQUIRREL:
+				if (((MiniSquirrel) entity).getParentToken() != father.getId()) {
+					if (entity.getEnergy() - energyLoss <= 0) {
+						collectedEnergy += entity.getEnergy();
+						entity.updateEnergy(-entity.getEnergy());
+						entity.die(); // wann remove?
+					} else {
+						entity.updateEnergy(-energyLoss);
+						collectedEnergy += energyLoss;
+					}
+				}
+				break;
+			case GOODBEAST:
+			case GOODPLANT:
+				if (entity.getEnergy() - energyLoss <= 0) {
+					collectedEnergy += entity.getEnergy();
+					entity.updateEnergy(-entity.getEnergy());
+					entity.die();
+					reCreate(entity);
+				} else {
+					entity.updateEnergy(-energyLoss);
+					collectedEnergy += energyLoss;
+				}
+				break;
+			case BADBEAST: // hier auch energie sammeln?
+				if (entity.getEnergy() + energyLoss >= 0) {
+					((BadBeast) entity).payLifePoint();
+					if (((BadBeast) entity).isDead()) {
+						reCreate(entity);
+					}
+				} else {
+					entity.updateEnergy(energyLoss);
+				}
+				break;
+			case BADPLANT:
+				if (entity.getEnergy() + energyLoss >= 0) {
+					entity.die();
+					reCreate(entity);
+				} else {
+					entity.updateEnergy(energyLoss);
+				}
+				break;
+			default:
+				break;
+
+			}
+
+		}
+		father.updateEnergy(collectedEnergy);
+		msb.die();
+		reMove(msb);
+
+	}
+
 }

@@ -171,6 +171,19 @@ public class EntitySet {
 		}
 		return null;
 	}
+	
+	public MasterSquirrel lookingForAFather(MiniSquirrel ms) {
+		Data i;
+		MasterSquirrel masterSquirrel = null;
+		for(i = head; i!=null; i = i.getNext()) {
+			if(i.getEntity() instanceof MasterSquirrel m) {
+				if(m.getId() == ms.getParentToken()) {
+					masterSquirrel = m;
+				}
+			}
+		}
+		return masterSquirrel;
+	}
 
 	public Enumeration<Entity> enumerateForward() {
 
