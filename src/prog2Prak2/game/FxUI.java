@@ -19,7 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import prog2Prak2.SquirrelCommandReader.Command;
@@ -202,43 +201,20 @@ public class FxUI implements UI {
 
 		Label legendLabel = new Label("Legend");
 		legendLabel.setFont(Font.font("Helvetica", FontWeight.BOLD, 15));
-		Label emptyLabel = new Label("Empty");
-		Label bbLabel = new Label("BadBeast");
-		Label bpLabel = new Label("BadPlant");
-		Label gbLabel = new Label("GoodBeast");
-		Label gpLabel = new Label("GoodPlant");
-		Label masqLabel = new Label("MasterSquirrel");
-		Label misqLabel = new Label("MiniSquirrel");
-		Label wLabel = new Label("Wall");
-		Label handOpMsLabel = new Label("HandOperatedMasterSquirrel");
-
+		
 		VBox entityBox = new VBox();
-		entityBox.getChildren().addAll(legendLabel, emptyLabel, bbLabel, bpLabel, gbLabel, gpLabel, masqLabel,
-				misqLabel, wLabel, handOpMsLabel);
-
-		Label emptySymbol = new Label("⬛");
-		emptySymbol.setTextFill(Color.WHITE);
-		Label bbSymbol = new Label("⬛");
-		bbSymbol.setTextFill(Color.RED);
-		Label bpSymbol = new Label("⬤");
-		bpSymbol.setTextFill(Color.RED);
-		Label gbSymbol = new Label("⬛");
-		gbSymbol.setTextFill(Color.GREEN);
-		Label gpSymbol = new Label("⬤");
-		gpSymbol.setTextFill(Color.GREEN);
-		Label masqSymbol = new Label("⬛");
-		masqSymbol.setTextFill(Color.BLACK);
-		Label misqSymbol = new Label("⬛");
-		misqSymbol.setTextFill(Color.LIGHTBLUE);
-		Label wSymbol = new Label("⬛");
-		wSymbol.setTextFill(Color.ORANGE);
-		Label handOpMsSymbol = new Label("⬛");
-		handOpMsSymbol.setTextFill(Color.BLUE);
-
+		entityBox.getChildren().add(legendLabel);
 		VBox symbolBox = new VBox();
-		symbolBox.getChildren().addAll(emptySymbol, bbSymbol, bpSymbol, gbSymbol, gpSymbol, masqSymbol, misqSymbol,
-				wSymbol, handOpMsSymbol);
-
+		EntityType [] typeArray = EntityType.values();
+		
+		for(EntityType e : typeArray) {
+			entityBox.getChildren().add(new Label(e.name()));
+			Label temp = new Label(e.getSign());
+			temp.setTextFill(e.getColor());
+			symbolBox.getChildren().add(temp);
+			
+		}
+		
 		HBox symbolEntityBox = new HBox();
 		symbolEntityBox.getChildren().addAll(symbolBox, entityBox);
 

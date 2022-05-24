@@ -5,6 +5,8 @@ import prog2Prak2.entities.*;
 import java.lang.reflect.Constructor;
 import java.util.Random;
 
+import HandOperated.HandOperatedMasterSquirrel;
+
 public class FlattenedBoard implements BoardView, EntityContext {
 	private Entity[][] entityArray;
 	private Random random = new Random();
@@ -293,8 +295,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 		if (entity == null) {
 			return EntityType.NULL;
-		} else if (entity instanceof HandOperatedMasterSquirrel) {
-			return EntityType.HANDOPERATEDMASTERSQUIRREL;
+	//	} else if (entity instanceof HandOperatedMasterSquirrel) {
+		//	return EntityType.HANDOPERATEDMASTERSQUIRREL;
 		} else if (entity instanceof MasterSquirrel) {
 			return EntityType.MASTERSQUIRREL;
 		} else if (entity instanceof GoodBeast) {
@@ -309,6 +311,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			return EntityType.WALL;
 		} else if (entity instanceof MiniSquirrel) {
 			return EntityType.MINISQUIRREL;
+		} else if (entity instanceof MiniSquirrelBot) {
+			return EntityType.MINISQUIRRELBOT;
+		} else if (entity instanceof MasterSquirrelBot) {
+			return EntityType.MASTERSQUIRRELBOT;
 		}
 
 		return EntityType.NULL;
@@ -362,6 +368,24 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return draggedDownIntoTheGrave;
 	}
 
+	public boolean isInRange(MiniSquirrelBot msb, Entity entityToTestToShoukanjuu) {
+
+		int radius = msb.getImpactRadius();
+		XY distanceVector = msb.getPos().fakeDiffCalc(entityToTestToShoukanjuu.getPos());
+		int distanceX = distanceVector.getX();
+		int distanceY = distanceVector.getY();
+
+		double distance;
+		distance = distanceX ^ 2 + distanceY ^ 2;
+		distance = Math.sqrt(distance);
+
+		if (radius > distance) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public void implode(MiniSquirrelBot msb) {
 		Entity[] affectedEntities = getAffectedEntities(msb.getPos(), msb.getImpactRadius());
 		Entity entity;
@@ -382,71 +406,79 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			}
 			energyLoss = 200 * (entity.getEnergy() / impactArea) * (1 - distance / msb.getImpactRadius());
 
-			switch (getEntityType(entity.getPos().getX(), entity.getPos().getY())) {
-			case MASTERSQUIRREL:
-				if (entity.getId() != father.getId()) {
+			if (isInRange(msb, entity)) {
+				switch (getEntityType(entity.getPos().getX(), entity.getPos().getY())) {
+				case MASTERSQUIRREL:
+					if (entity.getId() != father.getId()) {
+						if (entity.getEnergy() - energyLoss <= 0) {
+							collectedEnergy += entity.getEnergy();
+							entity.updateEnergy(-entity.getEnergy());
+							entity.die();
+						} else {
+							entity.updateEnergy(-energyLoss);
+							collectedEnergy += energyLoss;
+						}
+					}
+					break;
+				case MINISQUIRREL:
+					if (((MiniSquirrel) entity).getParentToken() != father.getId()) {
+						if (entity.getEnergy() - energyLoss <= 0) {
+							collectedEnergy += entity.getEnergy();
+							entity.updateEnergy(-entity.getEnergy());
+							entity.die(); // wann remove?
+						} else {
+							entity.updateEnergy(-energyLoss);
+							collectedEnergy += energyLoss;
+						}
+					}
+					break;
+				case GOODBEAST:
+				case GOODPLANT:
 					if (entity.getEnergy() - energyLoss <= 0) {
 						collectedEnergy += entity.getEnergy();
 						entity.updateEnergy(-entity.getEnergy());
 						entity.die();
-					} else {
-						entity.updateEnergy(-energyLoss);
-						collectedEnergy += energyLoss;
-					}
-				}
-				break;
-			case MINISQUIRREL:
-				if (((MiniSquirrel) entity).getParentToken() != father.getId()) {
-					if (entity.getEnergy() - energyLoss <= 0) {
-						collectedEnergy += entity.getEnergy();
-						entity.updateEnergy(-entity.getEnergy());
-						entity.die(); // wann remove?
-					} else {
-						entity.updateEnergy(-energyLoss);
-						collectedEnergy += energyLoss;
-					}
-				}
-				break;
-			case GOODBEAST:
-			case GOODPLANT:
-				if (entity.getEnergy() - energyLoss <= 0) {
-					collectedEnergy += entity.getEnergy();
-					entity.updateEnergy(-entity.getEnergy());
-					entity.die();
-					reCreate(entity);
-				} else {
-					entity.updateEnergy(-energyLoss);
-					collectedEnergy += energyLoss;
-				}
-				break;
-			case BADBEAST: // hier auch energie sammeln?
-				if (entity.getEnergy() + energyLoss >= 0) {
-					((BadBeast) entity).payLifePoint();
-					if (((BadBeast) entity).isDead()) {
 						reCreate(entity);
+					} else {
+						entity.updateEnergy(-energyLoss);
+						collectedEnergy += energyLoss;
 					}
-				} else {
-					entity.updateEnergy(energyLoss);
-				}
-				break;
-			case BADPLANT:
-				if (entity.getEnergy() + energyLoss >= 0) {
-					entity.die();
-					reCreate(entity);
-				} else {
-					entity.updateEnergy(energyLoss);
-				}
-				break;
-			default:
-				break;
+					break;
+				case BADBEAST:
+					if (entity.getEnergy() + energyLoss >= 0) {
+						((BadBeast) entity).payLifePoint();
+						if (((BadBeast) entity).isDead()) {
+							reCreate(entity);
+						}
+					} else {
+						entity.updateEnergy(energyLoss);
+					}
+					break;
+				case BADPLANT:
+					if (entity.getEnergy() + energyLoss >= 0) {
+						entity.die();
+						reCreate(entity);
+					} else {
+						entity.updateEnergy(energyLoss);
+					}
+					break;
+				default:
+					break;
 
+				}
 			}
-
 		}
 		father.updateEnergy(collectedEnergy);
 		msb.die();
 		reMove(msb);
 
+	}
+
+	@Override
+	public void insert(MiniSquirrel miniSquirrel) {
+		entityset.addEntity(miniSquirrel);
+		entityArray[miniSquirrel.getPos().getX()][miniSquirrel.getPos().getY()] = miniSquirrel;
+		
 	}
 
 }

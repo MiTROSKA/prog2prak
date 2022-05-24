@@ -20,7 +20,20 @@ public class MasterSquirrelBot extends MasterSquirrel{
 		this.botControllerFactory = bcf;
 		this.botController = bcf.createMasterBotController();
 		
+		
 		controllerContext = new ControllerContext() {
+			MiniSquirrel mini;
+			public void updateEnergy(int deltaWert) {
+				energy = energy + deltaWert;
+				if(energy <= 0) {
+					dead = true;
+				}
+				
+			}
+			
+			public MiniSquirrel getMini() {
+				return mini;
+			}
 
 			@Override
 			public XY getViewUpperLeft() {
@@ -70,13 +83,15 @@ public class MasterSquirrelBot extends MasterSquirrel{
 
 			@Override
 			public void move(XY direction) {
-				entityContext.move(MasterSquirrelBot.this, direction);
+				XY newPos = position.move(direction);
+				entityContext.move(MasterSquirrelBot.this, newPos);
 				
 			}
 
 			@Override
-			public void spawnMiniBot(XY direction, int energy) {
-				
+			public void spawnMiniBot(XY direction, int energy) throws NotEnoughEnergyException {
+				MiniSquirrel ms = spawnMinisquirrel(energy, direction);
+				mini = ms;
 				
 			}
 
@@ -85,12 +100,15 @@ public class MasterSquirrelBot extends MasterSquirrel{
 				return energy;
 			}
 			
+			
 		};
+		
+		
 	}
 	
 	@Override
-	public MiniSquirrel spawnMinisquirrel(int energy, XY direction, FlattenedBoard flatIsJustice)
-			throws Exception, NotEnoughEnergyException {
+	public MiniSquirrel spawnMinisquirrel(int energy, XY direction)
+			throws NotEnoughEnergyException {
 		if (this.energy - energy <= 0) {
 			throw new NotEnoughEnergyException("Not enough energy! You only have " + this.energy + " energy!"
 					+ " but you wanted to have " + energy + " energy! ");
@@ -104,8 +122,8 @@ public class MasterSquirrelBot extends MasterSquirrel{
 		x = newPos.getX();
 		y = newPos.getY();
 
-		if (flatIsJustice.getEntityType(x, y) != EntityType.NULL) {
-			throw new Exception("Desired directon for MiniSquirrel not free");
+		if (entityContext.getEntityType(x, y) != EntityType.NULL) {
+			throw new NotEnoughEnergyException("Desired directon for MiniSquirrel not free");
 		}
 
 		miniSquirrel = new MiniSquirrel(x, y, energy, this.id);
@@ -142,5 +160,7 @@ public class MasterSquirrelBot extends MasterSquirrel{
 	public String toString() {
 		return "MasterSquirrelBot nr: " + id + " Position: " + position.getX() + " " + position.getY();
 	}
+	
+	
 
 }

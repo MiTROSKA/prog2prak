@@ -1,17 +1,18 @@
-package prog2Prak2.unitTest;
+/*package prog2Prak2.unitTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 //import java.util.Arrays;
 import java.util.Enumeration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import HandOperated.HandOperatedMasterSquirrel;
 import prog2Prak2.entities.BadBeast;
 import prog2Prak2.entities.BadPlant;
 import prog2Prak2.entities.Entity;
 import prog2Prak2.entities.EntitySet;
 import prog2Prak2.entities.GoodBeast;
 import prog2Prak2.entities.GoodPlant;
-import prog2Prak2.entities.HandOperatedMasterSquirrel;
 import prog2Prak2.entities.Squirrel;
 import prog2Prak2.entities.Wall;
 import prog2Prak2.entities.XY;
@@ -192,6 +193,6 @@ public class EntitySetTest {
 	}
 }
 
-
+*/
 
 

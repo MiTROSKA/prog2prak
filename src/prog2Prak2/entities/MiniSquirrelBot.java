@@ -81,6 +81,19 @@ public class MiniSquirrelBot extends MiniSquirrel {
 				return energy;
 			}
 
+			
+			public void updateEnergy(int deltaWert) {
+			
+				}
+
+			@Override
+			public MiniSquirrel getMini() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+				
+			
+
 		};
 
 	}

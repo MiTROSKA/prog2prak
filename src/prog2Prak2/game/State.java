@@ -1,6 +1,7 @@
 package prog2Prak2.game;
 
-import prog2Prak2.entities.HandOperatedMasterSquirrel;
+
+import HandOperated.HandOperatedMasterSquirrel;
 import prog2Prak2.entities.MasterSquirrel;
 import prog2Prak2.entities.NotEnoughEnergyException;
 
@@ -25,11 +26,11 @@ public class State {
 		return board.getEntitiesOnField();
 	}
 	
-	public HandOperatedMasterSquirrel getMasterSquirrel() {
+	/*public HandOperatedMasterSquirrel getMasterSquirrel() {
 		return board.getMasterSquirrel();
-	}
+	} */
 	
-	public void spawnMiniSquirrel(MasterSquirrel ms, int energy) throws Exception, NotEnoughEnergyException {
-		board.spawnMiniSquirrel(ms, energy);
+	public void spawnMiniSquirrel(HandOperatedMasterSquirrel handOpMs) throws NotEnoughEnergyException {
+		board.spawnMiniSquirrel(handOpMs);
 	}
 }

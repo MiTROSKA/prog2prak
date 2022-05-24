@@ -1,5 +1,6 @@
 package prog2Prak2.entities;
 
+import HandOperated.HandOperatedMasterSquirrel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import prog2Prak2.game.EntityContext;
@@ -9,7 +10,7 @@ public class mainSpiel{
 
 	public static void main(String[] args) {
 		// Erstellung der Figuren
-		Entity s = new HandOperatedMasterSquirrel(13,13);
+	//	Entity s = new HandOperatedMasterSquirrel(13,13);
 		EntitySet entityset = new EntitySet();
 		GoodBeast gb = new GoodBeast(13,13);
 		BadBeast bb = new BadBeast(13,13);
@@ -17,11 +18,11 @@ public class mainSpiel{
 		BadPlant bp = new BadPlant(13,13);
 
 		// bewegliche objekte hinzuf�gen
-		entityset.addEntity(s);
+	//	entityset.addEntity(s);
 		entityset.addEntity(gb);
 		entityset.addEntity(bb);
 
-		// unbewegliche objekte hinzuf�gen
+		// unbewegliche objekte hinzuf�gen 
 		entityset.addEntity(goodp);
 		entityset.addEntity(bp);  
 
@@ -95,6 +96,12 @@ class EntityContextDummy implements EntityContext{
 	public EntityType getEntityType(int x, int y) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void insert(MiniSquirrel miniSquirrel) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

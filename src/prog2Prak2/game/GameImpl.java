@@ -2,9 +2,11 @@ package prog2Prak2.game;
 
 import java.lang.reflect.InvocationTargetException;
 
+import HandOperated.HandOperatedFactory;
+import HandOperated.HandOperatedMasterSquirrel;
 import prog2Prak2.SquirrelCommandReader.Command;
 import prog2Prak2.SquirrelCommandReader.GameCommandType;
-import prog2Prak2.entities.HandOperatedMasterSquirrel;
+import prog2Prak2.entities.MiniSquirrel;
 import prog2Prak2.entities.NotEnoughEnergyException;
 import prog2Prak2.entities.XY;
 
@@ -15,9 +17,9 @@ public class GameImpl extends Game {
 	private boolean lose1Turn;
 	private boolean pause;
 
-	public GameImpl(State state, UI userInterface, int timer) {
+	public GameImpl(State state, UI userInterface, int timer, HandOperatedFactory bcf) {
 		super(state, userInterface, timer);
-		handOpMs = state.getMasterSquirrel();
+		handOpMs = bcf.getHOMS();
 	}
 
 	public void processInput() {
@@ -97,7 +99,8 @@ public class GameImpl extends Game {
 
 	@SuppressWarnings("unused")
 	private void spawn_mini(int energy) throws Exception, NotEnoughEnergyException {
-		state.spawnMiniSquirrel(handOpMs, energy);
+		handOpMs.spawnMiniSquirrel(energy);
+		state.spawnMiniSquirrel(handOpMs);
 		handOpMs.setMoveCommand(new MoveCommand(new XY(0, 0)));
 	}
 	

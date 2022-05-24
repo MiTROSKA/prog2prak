@@ -1,9 +1,10 @@
 package prog2Prak2.game;
 
-import prog2Prak2.entities.HandOperatedMasterSquirrel;
+import prog2Prak2.entities.MasterSquirrel;
+import prog2Prak2.entities.MasterSquirrelBot;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import HandOperated.HandOperatedFactory;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -23,10 +24,15 @@ public class Launcher extends Application {
 		Timer gameLoopTimer = new Timer("GameLoopTimer");
 		int timer = 500;
 		// UI userInterface = new ConsoleUI();
-		HandOperatedMasterSquirrel handOpMs = new HandOperatedMasterSquirrel(1, 1);
-		Board board = new Board(handOpMs);
+		
+		HandOperatedFactory squirrelFactory = new HandOperatedFactory();
+		MasterSquirrel masterSquirrel = new MasterSquirrelBot(1,1, squirrelFactory);
+		MasterSquirrel [] squirrelList = {masterSquirrel};
+		
+		//HandOperatedMasterSquirrel handOpMs = new HandOperatedMasterSquirrel(1, 1);
+		Board board = new Board(squirrelList);
 		State state = new State(board);
-		Game game = new GameImpl(state, userInterface2, timer);
+		Game game = new GameImpl(state, userInterface2, timer, squirrelFactory);
 
 		try {
 			gameLoopTimer.schedule(new TimerTask() {
@@ -38,7 +44,7 @@ public class Launcher extends Application {
 
 			}, timer);
 		} catch (Exception e) {
-
+ 
 		}
 	}
 
