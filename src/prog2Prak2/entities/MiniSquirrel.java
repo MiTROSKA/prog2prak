@@ -1,5 +1,7 @@
 package prog2Prak2.entities;
 
+import prog2Prak2.game.EntityContext;
+
 public class MiniSquirrel extends Squirrel {
 	private final int parentToken;
 
@@ -12,7 +14,7 @@ public class MiniSquirrel extends Squirrel {
 		
 	}
 
-	public void nextStep() {
+	public void nextStep(EntityContext entityContext) {
 		if (stunCounter == 0) {
 			updateEnergy(-1);
 			XY newPos = position.randomMove();

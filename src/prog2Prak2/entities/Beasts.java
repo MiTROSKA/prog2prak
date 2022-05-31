@@ -1,5 +1,7 @@
 package prog2Prak2.entities;
 
+import prog2Prak2.game.EntityContext;
+
 public abstract class Beasts extends Entity {
 	protected int stepCount = 1;
 	
@@ -11,7 +13,7 @@ public abstract class Beasts extends Entity {
 	
 	public abstract XY beastMove(XY diffVector);
 	
-	public void nextStep() { 
+	public void nextStep(EntityContext entityContext) { 
 		if (stepCount == 4) {
 			XY wouldPos;
 			Squirrel nearestSquirrel = entityContext.getNearestSquirrel(position);

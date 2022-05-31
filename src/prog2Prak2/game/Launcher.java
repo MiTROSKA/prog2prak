@@ -4,7 +4,9 @@ import prog2Prak2.entities.MasterSquirrel;
 import prog2Prak2.entities.MasterSquirrelBot;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import HandOperated.HandOperatedFactory;
+import HandOperated.MasterBot1;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -26,8 +28,10 @@ public class Launcher extends Application {
 		// UI userInterface = new ConsoleUI();
 		
 		HandOperatedFactory squirrelFactory = new HandOperatedFactory();
+		HandOperatedFactory squirrelFac = new HandOperatedFactory();
+		MasterSquirrel ms1 = new MasterBot1(1, 10, squirrelFac);
 		MasterSquirrel masterSquirrel = new MasterSquirrelBot(1,1, squirrelFactory);
-		MasterSquirrel [] squirrelList = {masterSquirrel};
+		MasterSquirrel [] squirrelList = {masterSquirrel, ms1};
 		
 		//HandOperatedMasterSquirrel handOpMs = new HandOperatedMasterSquirrel(1, 1);
 		Board board = new Board(squirrelList);

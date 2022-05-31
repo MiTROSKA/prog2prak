@@ -7,6 +7,11 @@ public class XY {
 	public static final XY DOWN = new XY(0, 1);
 	public static final XY LEFT = new XY(-1,0);
 	public static final XY RIGHT = new XY(1,0);
+	public static final XY ZERO_ZERO = new XY(0,0);
+	public static final XY RIGHT_UP = new XY(1, -1);
+	public static final XY RIGHT_DOWN = new XY(1, 1);
+	public static final XY LEFT_UP = new XY(-1, -1);
+	public static final XY LEFT_DOWN = new XY(-1, 1);
 	private final int x;
 	private final int y;
 
@@ -120,5 +125,27 @@ public class XY {
 	public XY negate() {
 		return new XY(this.x*(-1), this.y*(-1));
 	}
+	
+	public double distanceFrom(XY xy) {
+		double distance = 0;
+		
+		XY distanceVector = this.fakeDiffCalc(xy);
+		
+		int distanceX = distanceVector.getX();
+		int distanceY = distanceVector.getY();
 
-}
+		distance = distanceX ^ 2 + distanceY ^ 2;
+		distance = Math.sqrt(distance);
+	
+		return distance;
+	}
+	
+	public XY times(int factor) {
+		return new XY(this.x * factor, this.y * factor);
+	}
+	
+	public String toString() {
+		return "X: " + getX() + "Y: " + getY();
+	}
+
+} 

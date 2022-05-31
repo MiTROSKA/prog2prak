@@ -3,36 +3,33 @@ package HandOperated;
 import java.util.Random;
 
 import prog2Prak2.entities.BotController;
+import prog2Prak2.entities.BotControllerFactory;
 import prog2Prak2.entities.ControllerContext;
+import prog2Prak2.entities.MasterSquirrelBot;
 import prog2Prak2.entities.MiniSquirrel;
-import prog2Prak2.entities.NotEnoughEnergyException;
 import prog2Prak2.entities.SpawnException;
 import prog2Prak2.entities.XY;
-import prog2Prak2.game.MoveCommand;
 
-public class HandOperatedMasterSquirrel implements BotController {
-	private MoveCommand moveCommand;
+public class MasterBot1 extends MasterSquirrelBot implements BotController {
+	
 	private ControllerContext conCon = null;
-	 private static final Random random = new Random();
-
-
-	@Override
-	public void nextStep(ControllerContext controllerContext) {
-		 conCon = controllerContext;
-		if (moveCommand != null) {
-			conCon.move(moveCommand.direction);
-			moveCommand = new MoveCommand(new XY(0,0));
-        }
-       
+	private static final Random random = new Random();
+	
+	public MasterBot1(int x, int y, BotControllerFactory bcf) {
+		super(x, y, bcf);
 		
 	}
 	
-	public void setMoveCommand(MoveCommand moveCommand) {
-		this.moveCommand = moveCommand;
+	@Override
+	public void nextStep(ControllerContext controllerContext) {
+		 conCon = controllerContext;
+		 XY wouldPos = position.randomMove();
+		 conCon.move(wouldPos);
 	}
 	
+	
 	public String getNameAndEnergy() {
-		return "HandOperatedSquirrel: " + conCon.getEnergy();
+		return "MasterBot1: " + conCon.getEnergy();
 	}
 
 	public int getEnergy() {
@@ -72,3 +69,5 @@ public class HandOperatedMasterSquirrel implements BotController {
 	
 	
 }
+
+

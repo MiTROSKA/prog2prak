@@ -5,13 +5,12 @@ import prog2Prak2.game.EntityContext;
 public abstract class Entity {
 	protected static int idCounter = 1;
 	protected boolean dead;
-	protected static EntityContext entityContext;
 	protected int id;
 	protected int energy;
 	protected XY position;
 	public abstract void updateEnergy(int deltaWert);
 	public abstract void updatePosition(XY newPos);
-	public abstract void nextStep();
+	public abstract void nextStep(EntityContext entityContext);
 	public abstract String toString();
 	
 	public void updateEnergy(double deltaWert) { energy += deltaWert;}
@@ -25,9 +24,7 @@ public abstract class Entity {
 	public boolean isSameEntity(Entity entity) {
 		return this.id == entity.getId();
 	}
-	public static void setEntityContext(EntityContext entityContext) {
-		Entity.entityContext = entityContext;
-	}
+	
 	public boolean isDead() {
 		return this.dead;
 	}

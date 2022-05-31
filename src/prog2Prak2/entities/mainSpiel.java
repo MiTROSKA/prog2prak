@@ -31,7 +31,7 @@ public class mainSpiel{
 		System.out.println("List Length: " + entityset.getListLength());
 		System.out.println(entityset);
 		
-		Entity.setEntityContext(new EntityContextDummy());
+	
 		//entityset.nextStepCaller();
 		//entityset.removeEntity(s);
 	//	Entity mini = s.spawnMinisquirrel(100);
@@ -102,6 +102,24 @@ class EntityContextDummy implements EntityContext{
 	public void insert(MiniSquirrel miniSquirrel) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isRelated(Entity myself, XY itsPos) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void implode(MiniSquirrelBot msb, int radius) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public MasterSquirrel getFather(MiniSquirrel ms) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

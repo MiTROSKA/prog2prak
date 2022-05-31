@@ -12,10 +12,21 @@ public interface ControllerContext {
 	
 	public void move(XY direction);
 	
-	public void spawnMiniBot(XY direction, int energy) throws NotEnoughEnergyException;
+	public void spawnMiniBot(XY direction, int energy) throws SpawnException;
 	
 	public int getEnergy();
 
 	public void updateEnergy(int i);
+	
 	public MiniSquirrel getMini();
+	
+	public XY locate();
+	
+	public boolean isMine(XY xy);
+	
+	public void implode(int impactRadius);
+	
+	public XY directionOfMaster();
+	
+	public long getRemainingSteps();
 }

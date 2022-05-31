@@ -385,9 +385,24 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 		return false;
 	}
+	
+	public double getDistance(MiniSquirrelBot msb, Entity entityToTest) {
+	
+		XY distanceVector = msb.getPos().fakeDiffCalc(entityToTest.getPos());
+		int distanceX = distanceVector.getX();
+		int distanceY = distanceVector.getY();
 
-	public void implode(MiniSquirrelBot msb) {
-		Entity[] affectedEntities = getAffectedEntities(msb.getPos(), msb.getImpactRadius());
+		double distance;
+		distance = distanceX ^ 2 + distanceY ^ 2;
+		distance = Math.sqrt(distance);
+
+		return distance;
+	}
+	
+
+	public void implode(MiniSquirrelBot msb, int impactRadius) {
+		//int impactRadius = msb.getImpactRadius();
+		Entity[] affectedEntities = getAffectedEntities(msb.getPos(), impactRadius);
 		Entity entity;
 		double impactArea = msb.getImpactRadius() * msb.getImpactRadius() * Math.PI;
 		double energyLoss;
@@ -396,15 +411,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 		for (int i = 0; i < affectedEntities.length; i++) {
 			entity = affectedEntities[i];
-			XY distanceVector = msb.getPos().fakeDiffCalc(entity.getPos());
-			int distance;
-			if (distanceVector.getX() < distanceVector.getY()) {
-				distance = distanceVector.getY();
-			} else {
-				distance = distanceVector.getX();
-
-			}
-			energyLoss = 200 * (entity.getEnergy() / impactArea) * (1 - distance / msb.getImpactRadius());
+		
+			double distance = getDistance(msb, entity);
+			
+			energyLoss = 200 * (entity.getEnergy() / impactArea) * (1 - distance / impactRadius);
 
 			if (isInRange(msb, entity)) {
 				switch (getEntityType(entity.getPos().getX(), entity.getPos().getY())) {
@@ -445,15 +455,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 					}
 					break;
 				case BADBEAST:
-					if (entity.getEnergy() + energyLoss >= 0) {
-						((BadBeast) entity).payLifePoint();
-						if (((BadBeast) entity).isDead()) {
-							reCreate(entity);
-						}
-					} else {
-						entity.updateEnergy(energyLoss);
-					}
-					break;
 				case BADPLANT:
 					if (entity.getEnergy() + energyLoss >= 0) {
 						entity.die();
@@ -479,6 +480,43 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		entityset.addEntity(miniSquirrel);
 		entityArray[miniSquirrel.getPos().getX()][miniSquirrel.getPos().getY()] = miniSquirrel;
 		
+	}
+	
+	
+	public boolean isRelated(Entity myself ,XY itsPos) {
+		Entity itself = entityArray[itsPos.getX()][itsPos.getY()];
+		
+		if(myself instanceof MasterSquirrel && itself instanceof MasterSquirrel) {
+			if(myself.getId() == itself.getId()) {
+				return true;
+			}
+		}
+		if(myself instanceof MasterSquirrel && itself instanceof MiniSquirrel) {
+			if(myself.getId() == ((MiniSquirrel)itself).getParentToken()) {
+				return true;
+			}
+		}
+		if(myself instanceof MiniSquirrel && itself instanceof MasterSquirrel) {
+			if(((MiniSquirrel)myself).getParentToken() == itself.getId()) {
+				return true;
+			}
+		}
+		if(myself instanceof MiniSquirrel && itself instanceof MiniSquirrel) {
+			if(((MiniSquirrel)myself).getParentToken() == ((MiniSquirrel)itself).getParentToken()) {
+				return true;
+			}
+		}
+		
+		
+		return false;
+	}
+
+	@Override
+	public MasterSquirrel getFather(MiniSquirrel ms) {
+		
+		MasterSquirrel masterSq = entityset.lookingForAFather(ms);
+		
+		return masterSq;
 	}
 
 }

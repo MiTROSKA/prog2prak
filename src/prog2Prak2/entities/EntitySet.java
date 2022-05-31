@@ -5,6 +5,8 @@ import java.util.Enumeration;
 //import java.util.List;
 import java.util.Random;
 
+import prog2Prak2.game.EntityContext;
+
 
 //import prog2Prak2.game.EntityContext;
 
@@ -106,10 +108,10 @@ public class EntitySet {
 		}
 	}
 
-	public void nextStepCaller() { // EntityContext entityContext
+	public void nextStepCaller(EntityContext entityContext) {  
 		// Entity.setEntityContext(entityContext);
 		for (Enumeration<Entity> e = this.enumerateForward(); e.hasMoreElements();) {
-			e.nextElement().nextStep();
+			e.nextElement().nextStep(entityContext);
 		}
 	}
 
@@ -172,7 +174,7 @@ public class EntitySet {
 		return null;
 	}
 	
-	public MasterSquirrel lookingForAFather(MiniSquirrel ms) {
+	public MasterSquirrel lookingForAFather (MiniSquirrel ms) {
 		Data i;
 		MasterSquirrel masterSquirrel = null;
 		for(i = head; i!=null; i = i.getNext()) {

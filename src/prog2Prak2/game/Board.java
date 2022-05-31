@@ -86,8 +86,7 @@ public class Board {
 	 */
 
 	public void update() {
-		Entity.setEntityContext(flatten());
-		entityset.nextStepCaller();
+		entityset.nextStepCaller(flatten());
 	}
 
 	public String getEntitiesOnField() {
